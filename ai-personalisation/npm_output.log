@@ -1,0 +1,19 @@
+
+> ai-personalisation@0.1.0 dev
+> next dev
+
+  ▲ Next.js 14.2.3
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+ ✓ Ready in 2.2s
+ ○ Compiling / ...
+ ✓ Compiled / in 7.3s (533 modules)
+ GET / 200 in 8163ms
+ ✓ Compiled in 804ms (257 modules)
+ GET /? 200 in 113ms
+ GET / 200 in 37ms
+ ○ Compiling /api/generate-message ...
+ ✓ Compiled /api/generate-message in 1750ms (441 modules)
+OPENAI_API_KEY is not set. Returning a mock message.
+ POST /api/generate-message 200 in 1920ms
