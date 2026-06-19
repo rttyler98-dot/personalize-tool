@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { AbsoluteFill, Sequence, interpolate, spring, useCurrentFrame, useVideoConfig, cancelRender, continueRender, delayRender, Audio } from 'remotion';
-import { Lottie } from '@remotion/lottie';
 
 export interface VideoCompositionProps {
   name: string;
@@ -11,22 +10,6 @@ export interface VideoCompositionProps {
 
 export const VideoComposition: React.FC<VideoCompositionProps> = ({ name, hook, valueProp, cta }) => {
   const { fps } = useVideoConfig();
-  const [animationData, setAnimationData] = useState<any>(null);
-  const [handle] = useState(() => delayRender());
-
-  useEffect(() => {
-    // Fetch the Lottie animation JSON
-    fetch('/lottie/animation.json')
-      .then((res) => res.json())
-      .then((data) => {
-        setAnimationData(data);
-        continueRender(handle);
-      })
-      .catch((err) => {
-        console.error('Failed to load lottie animation', err);
-        cancelRender(handle);
-      });
-  }, [handle]);
 
   // Use TTS endpoint for audio.
   // We URI encode the text to pass it safely via GET.
@@ -34,132 +17,110 @@ export const VideoComposition: React.FC<VideoCompositionProps> = ({ name, hook, 
   const valuePropAudioSrc = `/api/tts?text=${encodeURIComponent(valueProp)}`;
   const ctaAudioSrc = `/api/tts?text=${encodeURIComponent(cta)}`;
 
+  // 60fps timings for a 15-second total video (900 frames)
+  // Scene 1: 0 - 300
+  // Scene 2: 300 - 600
+  // Scene 3: 600 - 900
+
   return (
     <AbsoluteFill className="bg-black font-sans overflow-hidden">
 
-      {/* Scene 1: The Hook (0 - 150 frames, approx 5 seconds) */}
-      <Sequence from={0} durationInFrames={150}>
+      {/*
+        Sleek, minimalist "Apple-style" dynamic background.
+        Deep blacks with a very subtle, slow-moving radial glow.
+      */}
+      <DynamicBackground />
+
+      {/* Scene 1: The Hook */}
+      <Sequence from={0} durationInFrames={300}>
         <Audio src={hookAudioSrc} />
-        <SceneText text={hook} type="hook" fps={fps} animationData={animationData} />
+        <SceneText text={hook} fps={fps} />
       </Sequence>
 
-      {/* Scene 2: The Value Proposition (150 - 300 frames, approx 5 seconds) */}
-      <Sequence from={150} durationInFrames={150}>
+      {/* Scene 2: The Value Proposition */}
+      <Sequence from={300} durationInFrames={300}>
         <Audio src={valuePropAudioSrc} />
-        <SceneText text={valueProp} type="valueProp" fps={fps} />
+        <SceneText text={valueProp} fps={fps} />
       </Sequence>
 
-      {/* Scene 3: Call to Action (300 - 450 frames, approx 5 seconds) */}
-      <Sequence from={300} durationInFrames={150}>
+      {/* Scene 3: Call to Action */}
+      <Sequence from={600} durationInFrames={300}>
         <Audio src={ctaAudioSrc} />
-        <SceneText text={cta} type="cta" fps={fps} />
+        <SceneText text={cta} fps={fps} isCTA />
       </Sequence>
     </AbsoluteFill>
   );
 };
 
-const SceneText: React.FC<{ text: string, type: 'hook' | 'valueProp' | 'cta', fps: number, animationData?: any }> = ({ text, type, fps, animationData }) => {
+const DynamicBackground: React.FC = () => {
+  const frame = useCurrentFrame();
+  // Very slow rotation and scale for a premium, subtle feel
+  const rotation = interpolate(frame, [0, 900], [0, 90]);
+  const scale = interpolate(Math.sin(frame / 300), [-1, 1], [1, 1.2]);
+
+  return (
+    <AbsoluteFill className="bg-neutral-950 flex items-center justify-center">
+      <div
+        className="absolute w-[150vw] h-[150vw] rounded-full blur-[120px] opacity-20"
+        style={{
+          background: 'conic-gradient(from 180deg at 50% 50%, #171717 0deg, #4f46e5 180deg, #171717 360deg)',
+          transform: `rotate(${rotation}deg) scale(${scale})`,
+        }}
+      />
+    </AbsoluteFill>
+  );
+}
+
+
+const SceneText: React.FC<{ text: string, fps: number, isCTA?: boolean }> = ({ text, fps, isCTA }) => {
   const frame = useCurrentFrame();
 
-  // Different background and typography animations for each scene to remove the "slide" feel
+  // Minimalist Kinetic Typography:
+  // Words pop in quickly, sharply, and very large.
+  const words = text.split(' ');
 
-  if (type === 'hook') {
-    // Hook: Split text into words for kinetic typography
-    const words = text.split(' ');
+  return (
+    <AbsoluteFill className="flex flex-col items-center justify-center p-16">
+      <div className="relative z-10 flex flex-wrap justify-center gap-x-8 gap-y-4 text-center max-w-6xl">
+        {words.map((word, i) => {
+          // Snappy 60fps spring animation
+          // Staggered rapidly (every 10 frames = ~160ms)
+          const wordScale = spring({
+            fps,
+            frame: frame - (i * 10),
+            config: { damping: 16, stiffness: 200, mass: 0.5 },
+          });
 
-    return (
-      <AbsoluteFill className="bg-gradient-to-br from-blue-900 to-indigo-900 flex flex-col items-center justify-center p-16">
-         {animationData && (
-          <div className="w-80 h-80 mb-12 absolute opacity-30 blur-sm top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-            <Lottie animationData={animationData} />
-          </div>
-        )}
-        <div className="relative z-10 flex flex-wrap justify-center gap-4 text-center max-w-5xl">
-          {words.map((word, i) => {
-            const wordScale = spring({
-              fps,
-              frame: frame - (i * 3), // staggered animation
-              config: { damping: 12, mass: 0.5 },
-            });
-            const wordOpacity = interpolate(frame - (i * 3), [0, 5], [0, 1], {
-              extrapolateLeft: 'clamp', extrapolateRight: 'clamp'
-            });
-            return (
-              <span
-                key={i}
-                style={{ transform: `scale(${wordScale})`, opacity: wordOpacity }}
-                className="text-7xl font-black text-white uppercase tracking-tighter"
-              >
-                {word}
-              </span>
-            );
-          })}
-        </div>
-      </AbsoluteFill>
-    );
-  }
+          const wordOpacity = interpolate(frame - (i * 10), [0, 8], [0, 1], {
+            extrapolateLeft: 'clamp', extrapolateRight: 'clamp'
+          });
 
-  if (type === 'valueProp') {
-    // Value Prop: Sliding panels and highlighting
-    const slideX = spring({
-      fps,
-      frame,
-      config: { damping: 14, mass: 1 },
-    });
+          return (
+            <span
+              key={i}
+              style={{ transform: `scale(${wordScale})`, opacity: wordOpacity }}
+              className="text-8xl md:text-9xl font-semibold tracking-tight text-white drop-shadow-2xl"
+            >
+              {word}
+            </span>
+          );
+        })}
+      </div>
 
-    const panelTranslateX = interpolate(slideX, [0, 1], [-1000, 0]);
-
-    return (
-      <AbsoluteFill className="bg-emerald-900 flex items-center p-16">
-        {/* Dynamic diagonal shape in background */}
+      {/* For the final scene, fade in a sleek CTA button after the text finishes */}
+      {isCTA && (
         <div
-           className="absolute inset-0 bg-emerald-500 origin-bottom-left shadow-2xl"
-           style={{ transform: `translateX(${panelTranslateX}px) skewX(-15deg) scaleX(1.5)` }}
-        />
-        <div className="relative z-10 max-w-4xl text-left pl-12">
-           <h1
-             style={{
-               opacity: interpolate(frame, [15, 30], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}),
-               transform: `translateY(${interpolate(frame, [15, 30], [40, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}px)`
-             }}
-             className="text-5xl md:text-6xl text-white font-bold leading-tight drop-shadow-xl"
-           >
-             {text}
-           </h1>
-        </div>
-      </AbsoluteFill>
-    );
-  }
-
-  if (type === 'cta') {
-    // CTA: Pulsing scale and bright colors
-    const scale = spring({
-      fps,
-      frame,
-      config: { damping: 10, mass: 1 },
-    });
-
-    // Continuous slow pulse
-    const pulse = interpolate(Math.sin(frame / 10), [-1, 1], [1, 1.05]);
-
-    return (
-      <AbsoluteFill className="bg-gradient-to-tr from-purple-900 via-pink-800 to-orange-600 flex items-center justify-center p-12">
-        <div
-          style={{ transform: `scale(${scale * pulse})` }}
-          className="bg-white rounded-3xl p-16 shadow-[0_20px_60px_rgba(0,0,0,0.5)] text-center max-w-4xl w-full border-4 border-white/20"
+          className="absolute bottom-32 opacity-0"
+          style={{
+            opacity: interpolate(frame, [words.length * 10 + 30, words.length * 10 + 60], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }),
+            transform: `translateY(${interpolate(frame, [words.length * 10 + 30, words.length * 10 + 60], [20, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })}px)`
+          }}
         >
-          <h1 className="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-orange-600">
-            {text}
-          </h1>
-          <div className="mt-12">
-             <div className="inline-block px-10 py-5 bg-black text-white text-3xl font-bold rounded-full animate-bounce">
-                Get Started Now
-             </div>
+          <div className="px-12 py-6 bg-white text-black text-4xl font-semibold rounded-full shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:scale-105 transition-transform">
+            Get Started
           </div>
         </div>
-      </AbsoluteFill>
-    );
-  }
-
-  return null;
+      )}
+    </AbsoluteFill>
+  );
 };

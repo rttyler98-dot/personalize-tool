@@ -126,8 +126,8 @@ export default function Home() {
               <Player
                 component={VideoComposition}
                 inputProps={videoData}
-                durationInFrames={450} // 15 seconds at 30fps
-                fps={30}
+                durationInFrames={900} // 15 seconds at 60fps
+                fps={60}
                 compositionWidth={1920}
                 compositionHeight={1080}
                 style={{

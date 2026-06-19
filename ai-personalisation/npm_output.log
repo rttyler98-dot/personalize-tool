@@ -6,22 +6,22 @@
   - Local:        http://localhost:3000
 
  ✓ Starting...
- ✓ Ready in 4.2s
+ ✓ Ready in 2.3s
  ○ Compiling / ...
- ✓ Compiled / in 7.8s (539 modules)
- GET / 200 in 8838ms
- ✓ Compiled in 1003ms (260 modules)
+ ✓ Compiled / in 3.4s (524 modules)
+ GET / 200 in 4110ms
+ ✓ Compiled in 698ms (257 modules)
  ○ Compiling /api/generate-message ...
- ✓ Compiled /api/generate-message in 3s (443 modules)
+ ✓ Compiled /api/generate-message in 693ms (441 modules)
 OPENAI_API_KEY is not set. Returning a mock message.
- POST /api/generate-message 200 in 3194ms
- ✓ Compiled /api/tts in 217ms (445 modules)
+ POST /api/generate-message 200 in 851ms
+ ✓ Compiled /api/tts in 127ms (443 modules)
 OPENAI_API_KEY is not set. Cannot generate TTS audio.
- GET /api/tts?text=Hey%20Charlie!%20Struggling%20with%20managing%20remote%20teams%3F 204 in 288ms
+ GET /api/tts?text=Hey%20Charlie.%20Struggling%3F 204 in 227ms
 OPENAI_API_KEY is not set. Cannot generate TTS audio.
- GET /api/tts?text=Our%20new%20SaaS%20platform%20automates%20everything%2C%20saving%20you%20hours%20every%20week. 204 in 11ms
+ GET /api/tts?text=Automate%20everything.%20Save%20time. 204 in 15ms
 OPENAI_API_KEY is not set. Cannot generate TTS audio.
- GET /api/tts?text=Click%20below%20to%20start%20your%20free%2014-day%20trial%20today! 204 in 9ms
+ GET /api/tts?text=Start%20free%20trial. 204 in 25ms
 OPENAI_API_KEY is not set. Cannot generate TTS audio.
- GET /api/tts?text=Hey%20Charlie!%20Struggling%20with%20managing%20remote%20teams%3F 204 in 10ms
+ GET /api/tts?text=Hey%20Charlie.%20Struggling%3F 204 in 24ms
 [?25h
