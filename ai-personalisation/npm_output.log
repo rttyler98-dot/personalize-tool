@@ -6,14 +6,12 @@
   - Local:        http://localhost:3000
 
  ✓ Starting...
- ✓ Ready in 2.2s
+ ✓ Ready in 3.3s
  ○ Compiling / ...
- ✓ Compiled / in 7.3s (533 modules)
- GET / 200 in 8163ms
- ✓ Compiled in 804ms (257 modules)
- GET /? 200 in 113ms
- GET / 200 in 37ms
+ ✓ Compiled / in 7s (539 modules)
+ GET / 200 in 7947ms
+ ✓ Compiled in 961ms (260 modules)
  ○ Compiling /api/generate-message ...
- ✓ Compiled /api/generate-message in 1750ms (441 modules)
+ ✓ Compiled /api/generate-message in 2.8s (443 modules)
 OPENAI_API_KEY is not set. Returning a mock message.
- POST /api/generate-message 200 in 1920ms
+ POST /api/generate-message 200 in 2979ms
