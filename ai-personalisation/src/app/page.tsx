@@ -42,6 +42,7 @@ export default function Home() {
         hook: data.hook,
         valueProp: data.valueProp,
         cta: data.cta,
+        uiType: data.uiType,
       });
     } catch (err: any) {
       setError(err.message || "An unexpected error occurred");
@@ -136,7 +137,7 @@ export default function Home() {
                 }}
                 controls
                 autoPlay
-                loop
+                loop={false}
               />
             ) : (
               <div className="text-center p-8 flex flex-col items-center text-neutral-500 dark:text-neutral-400">

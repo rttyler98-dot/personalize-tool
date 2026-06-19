@@ -8,34 +8,30 @@
  ✓ Starting...
  ✓ Ready in 2.1s
  ○ Compiling / ...
- ✓ Compiled / in 3s (526 modules)
- GET / 200 in 3648ms
- ✓ Compiled in 453ms (258 modules)
+ ✓ Compiled / in 3.1s (526 modules)
+ GET / 200 in 3589ms
+ ✓ Compiled in 413ms (258 modules)
  ○ Compiling /api/generate-message ...
- ✓ Compiled /api/generate-message in 746ms (442 modules)
+ ✓ Compiled /api/generate-message in 731ms (442 modules)
 OPENAI_API_KEY is not set. Returning a mock message.
- POST /api/generate-message 200 in 912ms
- ✓ Compiled /api/tts in 148ms (444 modules)
+ POST /api/generate-message 200 in 899ms
+ ✓ Compiled /api/tts in 140ms (444 modules)
 OPENAI_API_KEY is not set. Cannot generate TTS audio.
- GET /api/tts?text=Hey%20you.%20Tired%20of%20silence%3F 204 in 247ms
+ GET /api/tts?text=Hey%20you.%20Tired%20of%20silence%3F 204 in 252ms
 OPENAI_API_KEY is not set. Cannot generate TTS audio.
- GET /api/tts?text=Millions%20of%20songs.%20Instantly. 204 in 14ms
+ GET /api/tts?text=Millions%20of%20songs.%20Instantly. 204 in 33ms
 OPENAI_API_KEY is not set. Cannot generate TTS audio.
- GET /api/tts?text=Get%20Spotify%20Premium. 204 in 25ms
+ GET /api/tts?text=Get%20Spotify%20Premium. 204 in 24ms
 OPENAI_API_KEY is not set. Cannot generate TTS audio.
  GET /api/tts?text=Hey%20you.%20Tired%20of%20silence%3F 204 in 18ms
- ✓ Compiled in 548ms (526 modules)
- GET / 200 in 220ms
- ✓ Compiled /api/generate-message in 163ms (442 modules)
+ GET / 200 in 170ms
 OPENAI_API_KEY is not set. Returning a mock message.
- POST /api/generate-message 200 in 279ms
- ✓ Compiled /api/tts in 193ms (444 modules)
+ POST /api/generate-message 200 in 15ms
 OPENAI_API_KEY is not set. Cannot generate TTS audio.
- GET /api/tts?text=Hey%20you.%20Tired%20of%20silence%3F 204 in 256ms
+ GET /api/tts?text=Hey%20you.%20Tired%20of%20silence%3F 204 in 16ms
 OPENAI_API_KEY is not set. Cannot generate TTS audio.
- GET /api/tts?text=Millions%20of%20songs.%20Instantly. 204 in 8ms
+ GET /api/tts?text=Millions%20of%20songs.%20Instantly. 204 in 10ms
 OPENAI_API_KEY is not set. Cannot generate TTS audio.
- GET /api/tts?text=Get%20Spotify%20Premium. 204 in 10ms
-OPENAI_API_KEY is not set. Cannot generate TTS audio.
- GET /api/tts?text=Hey%20you.%20Tired%20of%20silence%3F 204 in 15ms
-[?25h
+ GET /api/tts?text=Get%20Vercel%20Premium. 204 in 21ms
+ ✓ Compiled in 432ms (526 modules)
+ ✓ Compiled in 257ms (526 modules)

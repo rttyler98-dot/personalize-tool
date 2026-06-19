@@ -18,10 +18,13 @@ export async function POST(request: Request) {
 
     if (!openai) {
       console.warn('OPENAI_API_KEY is not set. Returning a mock message.');
+      const validUiTypes = ['dashboard', 'code', 'chat'];
+      const randomUiType = validUiTypes[Math.floor(Math.random() * validUiTypes.length)];
       return NextResponse.json({
         hook: `Hey you. Tired of silence?`,
         valueProp: `Millions of songs. Instantly.`,
         cta: `Get ${name} Premium.`,
+        uiType: randomUiType
       });
     }
 
@@ -36,10 +39,11 @@ You are writing an ad FOR a company/brand, addressing a general audience (e.g. "
 
 The copy MUST be extremely short. Use only 2-5 words per phrase. Make it dramatic, powerful, and succinct.
 
-You must output a JSON object with exactly three keys:
+You must output a JSON object with exactly four keys:
 1. "hook": Extremely short address to the audience's problem. (e.g. "Hey you. Too much work?")
 2. "valueProp": Extremely short explanation of the brand's solution. (e.g. "We automate it. Faster.")
-3. "cta": Extremely short call to action including the brand name if possible. (e.g. "Try [Brand] now.")`
+3. "cta": Extremely short call to action including the brand name if possible. (e.g. "Try [Brand] now.")
+4. "uiType": Based on the brand and problem, select the most appropriate visual UI representation from these options exactly: "dashboard", "code", or "chat".`
         },
         {
           role: "user",
@@ -58,10 +62,15 @@ You must output a JSON object with exactly three keys:
 
     const parsed = JSON.parse(content);
 
+    // Ensure uiType is one of the allowed values
+    const validUiTypes = ['dashboard', 'code', 'chat'];
+    const uiType = validUiTypes.includes(parsed.uiType) ? parsed.uiType : 'dashboard';
+
     return NextResponse.json({
       hook: parsed.hook || `Hey you. Listen.`,
       valueProp: parsed.valueProp || "We fix it.",
       cta: parsed.cta || `Try ${name} now.`,
+      uiType: uiType
      });
   } catch (error) {
     console.error('Error generating message:', error);
