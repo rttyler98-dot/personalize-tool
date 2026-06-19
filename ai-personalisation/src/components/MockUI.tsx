@@ -9,11 +9,11 @@ export const MockDashboard: React.FC = () => {
   // Entrance animation for the dashboard window
   const scale = spring({
     fps,
-    frame: frame - 60, // Delay entrance
-    config: { damping: 14, mass: 1 },
+    frame: frame - 30, // Faster entrance
+    config: { damping: 14, mass: 1, stiffness: 200 },
   });
 
-  const opacity = interpolate(frame - 60, [0, 10], [0, 1], {
+  const opacity = interpolate(frame - 30, [0, 10], [0, 1], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
@@ -61,8 +61,8 @@ export const MockDashboard: React.FC = () => {
               // Staggered growth animation for the bars
               const barHeight = spring({
                 fps,
-                frame: frame - 90 - (i * 5),
-                config: { damping: 12 },
+                frame: frame - 50 - (i * 3), // Much faster staggered entrance
+                config: { damping: 12, stiffness: 200 },
               });
 
               return (
@@ -89,13 +89,13 @@ export const MockInputCTA: React.FC = () => {
   // Entrance animation
   const translateY = spring({
     fps,
-    frame: frame - 120, // Delayed
-    config: { damping: 14, mass: 1 },
+    frame: frame - 45, // Faster entrance for the 3s scene
+    config: { damping: 14, mass: 1, stiffness: 200 },
     from: 100,
     to: 0,
   });
 
-  const opacity = interpolate(frame - 120, [0, 10], [0, 1], {
+  const opacity = interpolate(frame - 45, [0, 10], [0, 1], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });

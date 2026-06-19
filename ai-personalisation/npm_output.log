@@ -8,20 +8,34 @@
  ✓ Starting...
  ✓ Ready in 2.1s
  ○ Compiling / ...
- ✓ Compiled / in 3.2s (526 modules)
- GET / 200 in 4033ms
- ✓ Compiled in 786ms (258 modules)
+ ✓ Compiled / in 3s (526 modules)
+ GET / 200 in 3648ms
+ ✓ Compiled in 453ms (258 modules)
  ○ Compiling /api/generate-message ...
- ✓ Compiled /api/generate-message in 701ms (442 modules)
+ ✓ Compiled /api/generate-message in 746ms (442 modules)
 OPENAI_API_KEY is not set. Returning a mock message.
- POST /api/generate-message 200 in 907ms
- ✓ Compiled /api/tts in 176ms (444 modules)
+ POST /api/generate-message 200 in 912ms
+ ✓ Compiled /api/tts in 148ms (444 modules)
 OPENAI_API_KEY is not set. Cannot generate TTS audio.
- GET /api/tts?text=Hey%20Charlie.%20Struggling%3F 204 in 290ms
+ GET /api/tts?text=Hey%20you.%20Tired%20of%20silence%3F 204 in 247ms
 OPENAI_API_KEY is not set. Cannot generate TTS audio.
- GET /api/tts?text=Automate%20everything.%20Save%20time. 204 in 29ms
+ GET /api/tts?text=Millions%20of%20songs.%20Instantly. 204 in 14ms
 OPENAI_API_KEY is not set. Cannot generate TTS audio.
- GET /api/tts?text=Start%20free%20trial. 204 in 18ms
+ GET /api/tts?text=Get%20Spotify%20Premium. 204 in 25ms
 OPENAI_API_KEY is not set. Cannot generate TTS audio.
- GET /api/tts?text=Hey%20Charlie.%20Struggling%3F 204 in 23ms
+ GET /api/tts?text=Hey%20you.%20Tired%20of%20silence%3F 204 in 18ms
+ ✓ Compiled in 548ms (526 modules)
+ GET / 200 in 220ms
+ ✓ Compiled /api/generate-message in 163ms (442 modules)
+OPENAI_API_KEY is not set. Returning a mock message.
+ POST /api/generate-message 200 in 279ms
+ ✓ Compiled /api/tts in 193ms (444 modules)
+OPENAI_API_KEY is not set. Cannot generate TTS audio.
+ GET /api/tts?text=Hey%20you.%20Tired%20of%20silence%3F 204 in 256ms
+OPENAI_API_KEY is not set. Cannot generate TTS audio.
+ GET /api/tts?text=Millions%20of%20songs.%20Instantly. 204 in 8ms
+OPENAI_API_KEY is not set. Cannot generate TTS audio.
+ GET /api/tts?text=Get%20Spotify%20Premium. 204 in 10ms
+OPENAI_API_KEY is not set. Cannot generate TTS audio.
+ GET /api/tts?text=Hey%20you.%20Tired%20of%20silence%3F 204 in 15ms
 [?25h

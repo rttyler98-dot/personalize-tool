@@ -18,7 +18,7 @@ export const VideoComposition: React.FC<VideoCompositionProps> = ({ name, hook, 
   const valuePropAudioSrc = `/api/tts?text=${encodeURIComponent(valueProp)}`;
   const ctaAudioSrc = `/api/tts?text=${encodeURIComponent(cta)}`;
 
-  // 60fps timings for a 15-second total video (900 frames)
+  // 60fps timings for a 9-second fast-paced video (540 frames)
   return (
     <AbsoluteFill className="bg-black font-sans overflow-hidden">
 
@@ -28,19 +28,19 @@ export const VideoComposition: React.FC<VideoCompositionProps> = ({ name, hook, 
       <DynamicBackground />
 
       {/* Scene 1: The Hook (Text only, dramatic setup) */}
-      <Sequence from={0} durationInFrames={300}>
+      <Sequence from={0} durationInFrames={180}>
         <Audio src={hookAudioSrc} />
         <SceneText text={hook} fps={fps} />
       </Sequence>
 
       {/* Scene 2: The Value Proposition (Text + Dashboard UI) */}
-      <Sequence from={300} durationInFrames={300}>
+      <Sequence from={180} durationInFrames={180}>
         <Audio src={valuePropAudioSrc} />
         <SceneText text={valueProp} fps={fps} showDashboard />
       </Sequence>
 
       {/* Scene 3: Call to Action (Text + CTA Input UI) */}
-      <Sequence from={600} durationInFrames={300}>
+      <Sequence from={360} durationInFrames={180}>
         <Audio src={ctaAudioSrc} />
         <SceneText text={cta} fps={fps} isCTA />
       </Sequence>

@@ -19,9 +19,9 @@ export async function POST(request: Request) {
     if (!openai) {
       console.warn('OPENAI_API_KEY is not set. Returning a mock message.');
       return NextResponse.json({
-        hook: `Hey ${name}. Struggling?`,
-        valueProp: `Automate everything. Save time.`,
-        cta: `Start free trial.`,
+        hook: `Hey you. Tired of silence?`,
+        valueProp: `Millions of songs. Instantly.`,
+        cta: `Get ${name} Premium.`,
       });
     }
 
@@ -32,16 +32,18 @@ export async function POST(request: Request) {
         {
           role: "system",
           content: `You are writing a script for a fast-paced, 60fps video ad in the minimalist, punchy style of Apple commercials.
+You are writing an ad FOR a company/brand, addressing a general audience (e.g. "Hey you", "Listen up", "Struggling?"). Do NOT address the user by name.
+
 The copy MUST be extremely short. Use only 2-5 words per phrase. Make it dramatic, powerful, and succinct.
 
 You must output a JSON object with exactly three keys:
-1. "hook": Extremely short address to the user's problem. (e.g. "Hey [Name]. Too much work?")
-2. "valueProp": Extremely short explanation of the solution. (e.g. "We automate it. Faster.")
-3. "cta": Extremely short call to action. (e.g. "Try it now.")`
+1. "hook": Extremely short address to the audience's problem. (e.g. "Hey you. Too much work?")
+2. "valueProp": Extremely short explanation of the brand's solution. (e.g. "We automate it. Faster.")
+3. "cta": Extremely short call to action including the brand name if possible. (e.g. "Try [Brand] now.")`
         },
         {
           role: "user",
-          content: `Write an ultra-short, punchy ad script for a user named ${name}. Their problem/goal is: ${topic}.`
+          content: `Write an ultra-short, punchy ad script for the brand/company named ${name}. The problem they solve or goal they help with is: ${topic}.`
         }
       ],
       temperature: 0.7,
@@ -57,9 +59,9 @@ You must output a JSON object with exactly three keys:
     const parsed = JSON.parse(content);
 
     return NextResponse.json({
-      hook: parsed.hook || `Hey ${name}. Listen.`,
+      hook: parsed.hook || `Hey you. Listen.`,
       valueProp: parsed.valueProp || "We fix it.",
-      cta: parsed.cta || "Try now.",
+      cta: parsed.cta || `Try ${name} now.`,
      });
   } catch (error) {
     console.error('Error generating message:', error);

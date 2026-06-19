@@ -67,14 +67,14 @@ export default function Home() {
           <form onSubmit={handleGenerate} className="space-y-6">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-                Recipient&apos;s Name
+                Company / Brand Name
               </label>
               <input
                 type="text"
                 id="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. Alex"
+                placeholder="e.g. Spotify, Linear, Vercel"
                 className="w-full px-4 py-3 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
               />
             </div>
@@ -126,7 +126,7 @@ export default function Home() {
               <Player
                 component={VideoComposition}
                 inputProps={videoData}
-                durationInFrames={900} // 15 seconds at 60fps
+                durationInFrames={540} // 9 seconds at 60fps (fast paced)
                 fps={60}
                 compositionWidth={1920}
                 compositionHeight={1080}
@@ -148,7 +148,7 @@ export default function Home() {
           </div>
           {videoData && (
             <p className="mt-4 text-sm text-neutral-500 dark:text-neutral-400 font-medium bg-neutral-100 dark:bg-neutral-900 px-4 py-2 rounded-full border border-neutral-200 dark:border-neutral-800">
-              Previewing 15s Ad for {videoData.name}
+              Previewing 9s Ad for {videoData.name}
             </p>
           )}
         </div>
