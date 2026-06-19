@@ -81,15 +81,15 @@ export default function Home() {
 
             <div>
               <label htmlFor="topic" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-                User&apos;s Pain Point or Goal
+                User&apos;s Pain Point or Goal (Explain in Detail)
               </label>
-              <input
-                type="text"
+              <textarea
                 id="topic"
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
-                placeholder="e.g. managing remote teams, slow build times"
-                className="w-full px-4 py-3 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                placeholder="Explain the specific struggles, what you've tried before, and what your ultimate goal is. The more detail, the better the AI can personalize the ad!"
+                rows={5}
+                className="w-full px-4 py-3 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors resize-none"
               />
             </div>
 

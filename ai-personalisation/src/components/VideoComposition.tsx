@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AbsoluteFill, Sequence, interpolate, spring, useCurrentFrame, useVideoConfig, cancelRender, continueRender, delayRender } from 'remotion';
+import { AbsoluteFill, Sequence, interpolate, spring, useCurrentFrame, useVideoConfig, cancelRender, continueRender, delayRender, Audio } from 'remotion';
 import { Lottie } from '@remotion/lottie';
 
 export interface VideoCompositionProps {
@@ -28,23 +28,30 @@ export const VideoComposition: React.FC<VideoCompositionProps> = ({ name, hook, 
       });
   }, [handle]);
 
+  // Use TTS endpoint for audio.
+  // We URI encode the text to pass it safely via GET.
+  const hookAudioSrc = `/api/tts?text=${encodeURIComponent(hook)}`;
+  const valuePropAudioSrc = `/api/tts?text=${encodeURIComponent(valueProp)}`;
+  const ctaAudioSrc = `/api/tts?text=${encodeURIComponent(cta)}`;
+
   return (
-    <AbsoluteFill className="bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-950 flex items-center justify-center font-sans">
-      {/* Background decoration */}
-      <div className="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-500 via-transparent to-transparent"></div>
+    <AbsoluteFill className="bg-black font-sans overflow-hidden">
 
       {/* Scene 1: The Hook (0 - 150 frames, approx 5 seconds) */}
       <Sequence from={0} durationInFrames={150}>
+        <Audio src={hookAudioSrc} />
         <SceneText text={hook} type="hook" fps={fps} animationData={animationData} />
       </Sequence>
 
       {/* Scene 2: The Value Proposition (150 - 300 frames, approx 5 seconds) */}
       <Sequence from={150} durationInFrames={150}>
+        <Audio src={valuePropAudioSrc} />
         <SceneText text={valueProp} type="valueProp" fps={fps} />
       </Sequence>
 
       {/* Scene 3: Call to Action (300 - 450 frames, approx 5 seconds) */}
       <Sequence from={300} durationInFrames={150}>
+        <Audio src={ctaAudioSrc} />
         <SceneText text={cta} type="cta" fps={fps} />
       </Sequence>
     </AbsoluteFill>
@@ -54,60 +61,105 @@ export const VideoComposition: React.FC<VideoCompositionProps> = ({ name, hook, 
 const SceneText: React.FC<{ text: string, type: 'hook' | 'valueProp' | 'cta', fps: number, animationData?: any }> = ({ text, type, fps, animationData }) => {
   const frame = useCurrentFrame();
 
-  // Entrance animation for the container
-  const scale = spring({
-    fps,
-    frame,
-    config: { damping: 14, mass: 0.8 },
-  });
+  // Different background and typography animations for each scene to remove the "slide" feel
 
-  // Fade in for the text
-  const opacity = interpolate(frame, [5, 20], [0, 1], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-  });
+  if (type === 'hook') {
+    // Hook: Split text into words for kinetic typography
+    const words = text.split(' ');
 
-  // Slide up for the message
-  const translateY = interpolate(frame, [10, 30], [50, 0], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-  });
-
-  // Exit animation (fade out before the scene ends)
-  // Assuming each scene is 150 frames, we start fading out at frame 130
-  const exitOpacity = interpolate(frame, [130, 145], [1, 0], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-  });
-
-  const getStyle = () => {
-    switch(type) {
-      case 'hook': return "text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400 mb-6 drop-shadow-lg";
-      case 'valueProp': return "text-4xl md:text-5xl text-white leading-relaxed font-medium";
-      case 'cta': return "text-5xl md:text-6xl font-bold text-white bg-indigo-600 px-12 py-6 rounded-full shadow-[0_0_40px_rgba(79,70,229,0.5)]";
-    }
-  }
-
-  return (
-    <AbsoluteFill className="flex items-center justify-center p-12">
-      <div
-        style={{ transform: `scale(${scale})`, opacity: exitOpacity }}
-        className={`bg-black/40 backdrop-blur-xl rounded-3xl p-16 shadow-2xl border border-white/10 text-center max-w-4xl w-full flex flex-col items-center justify-center ${type === 'cta' ? 'border-indigo-500/50' : ''}`}
-      >
-        {/* Lottie Animation only in the hook scene for now */}
-        {type === 'hook' && animationData && (
-          <div className="w-64 h-64 mb-8">
+    return (
+      <AbsoluteFill className="bg-gradient-to-br from-blue-900 to-indigo-900 flex flex-col items-center justify-center p-16">
+         {animationData && (
+          <div className="w-80 h-80 mb-12 absolute opacity-30 blur-sm top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <Lottie animationData={animationData} />
           </div>
         )}
+        <div className="relative z-10 flex flex-wrap justify-center gap-4 text-center max-w-5xl">
+          {words.map((word, i) => {
+            const wordScale = spring({
+              fps,
+              frame: frame - (i * 3), // staggered animation
+              config: { damping: 12, mass: 0.5 },
+            });
+            const wordOpacity = interpolate(frame - (i * 3), [0, 5], [0, 1], {
+              extrapolateLeft: 'clamp', extrapolateRight: 'clamp'
+            });
+            return (
+              <span
+                key={i}
+                style={{ transform: `scale(${wordScale})`, opacity: wordOpacity }}
+                className="text-7xl font-black text-white uppercase tracking-tighter"
+              >
+                {word}
+              </span>
+            );
+          })}
+        </div>
+      </AbsoluteFill>
+    );
+  }
 
-        <h1
-          style={{ opacity, transform: `translateY(${translateY}px)` }}
-          className={getStyle()}
+  if (type === 'valueProp') {
+    // Value Prop: Sliding panels and highlighting
+    const slideX = spring({
+      fps,
+      frame,
+      config: { damping: 14, mass: 1 },
+    });
+
+    const panelTranslateX = interpolate(slideX, [0, 1], [-1000, 0]);
+
+    return (
+      <AbsoluteFill className="bg-emerald-900 flex items-center p-16">
+        {/* Dynamic diagonal shape in background */}
+        <div
+           className="absolute inset-0 bg-emerald-500 origin-bottom-left shadow-2xl"
+           style={{ transform: `translateX(${panelTranslateX}px) skewX(-15deg) scaleX(1.5)` }}
+        />
+        <div className="relative z-10 max-w-4xl text-left pl-12">
+           <h1
+             style={{
+               opacity: interpolate(frame, [15, 30], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}),
+               transform: `translateY(${interpolate(frame, [15, 30], [40, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}px)`
+             }}
+             className="text-5xl md:text-6xl text-white font-bold leading-tight drop-shadow-xl"
+           >
+             {text}
+           </h1>
+        </div>
+      </AbsoluteFill>
+    );
+  }
+
+  if (type === 'cta') {
+    // CTA: Pulsing scale and bright colors
+    const scale = spring({
+      fps,
+      frame,
+      config: { damping: 10, mass: 1 },
+    });
+
+    // Continuous slow pulse
+    const pulse = interpolate(Math.sin(frame / 10), [-1, 1], [1, 1.05]);
+
+    return (
+      <AbsoluteFill className="bg-gradient-to-tr from-purple-900 via-pink-800 to-orange-600 flex items-center justify-center p-12">
+        <div
+          style={{ transform: `scale(${scale * pulse})` }}
+          className="bg-white rounded-3xl p-16 shadow-[0_20px_60px_rgba(0,0,0,0.5)] text-center max-w-4xl w-full border-4 border-white/20"
         >
-          {text}
-        </h1>
-      </div>
-    </AbsoluteFill>
-  );
+          <h1 className="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-orange-600">
+            {text}
+          </h1>
+          <div className="mt-12">
+             <div className="inline-block px-10 py-5 bg-black text-white text-3xl font-bold rounded-full animate-bounce">
+                Get Started Now
+             </div>
+          </div>
+        </div>
+      </AbsoluteFill>
+    );
+  }
+
+  return null;
 };
