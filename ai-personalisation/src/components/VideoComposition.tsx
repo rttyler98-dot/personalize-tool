@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { AbsoluteFill, Sequence, interpolate, spring, useCurrentFrame, useVideoConfig, cancelRender, continueRender, delayRender, Audio } from 'remotion';
+import React from 'react';
+import { AbsoluteFill, Sequence, interpolate, spring, useCurrentFrame, useVideoConfig, Audio } from 'remotion';
+import { MockDashboard, MockInputCTA } from './MockUI';
 
 export interface VideoCompositionProps {
   name: string;
@@ -18,32 +19,27 @@ export const VideoComposition: React.FC<VideoCompositionProps> = ({ name, hook, 
   const ctaAudioSrc = `/api/tts?text=${encodeURIComponent(cta)}`;
 
   // 60fps timings for a 15-second total video (900 frames)
-  // Scene 1: 0 - 300
-  // Scene 2: 300 - 600
-  // Scene 3: 600 - 900
-
   return (
     <AbsoluteFill className="bg-black font-sans overflow-hidden">
 
       {/*
         Sleek, minimalist "Apple-style" dynamic background.
-        Deep blacks with a very subtle, slow-moving radial glow.
       */}
       <DynamicBackground />
 
-      {/* Scene 1: The Hook */}
+      {/* Scene 1: The Hook (Text only, dramatic setup) */}
       <Sequence from={0} durationInFrames={300}>
         <Audio src={hookAudioSrc} />
         <SceneText text={hook} fps={fps} />
       </Sequence>
 
-      {/* Scene 2: The Value Proposition */}
+      {/* Scene 2: The Value Proposition (Text + Dashboard UI) */}
       <Sequence from={300} durationInFrames={300}>
         <Audio src={valuePropAudioSrc} />
-        <SceneText text={valueProp} fps={fps} />
+        <SceneText text={valueProp} fps={fps} showDashboard />
       </Sequence>
 
-      {/* Scene 3: Call to Action */}
+      {/* Scene 3: Call to Action (Text + CTA Input UI) */}
       <Sequence from={600} durationInFrames={300}>
         <Audio src={ctaAudioSrc} />
         <SceneText text={cta} fps={fps} isCTA />
@@ -71,17 +67,22 @@ const DynamicBackground: React.FC = () => {
   );
 }
 
-
-const SceneText: React.FC<{ text: string, fps: number, isCTA?: boolean }> = ({ text, fps, isCTA }) => {
+const SceneText: React.FC<{ text: string, fps: number, isCTA?: boolean, showDashboard?: boolean }> = ({ text, fps, isCTA, showDashboard }) => {
   const frame = useCurrentFrame();
-
-  // Minimalist Kinetic Typography:
-  // Words pop in quickly, sharply, and very large.
   const words = text.split(' ');
+
+  // Calculate Layout Adjustments
+  // If we have UI elements, we want to push the text up slightly
+  const layoutTranslateY = (isCTA || showDashboard) ? -120 : 0;
 
   return (
     <AbsoluteFill className="flex flex-col items-center justify-center p-16">
-      <div className="relative z-10 flex flex-wrap justify-center gap-x-8 gap-y-4 text-center max-w-6xl">
+
+      {/* Kinetic Text Layer */}
+      <div
+        className="relative z-20 flex flex-wrap justify-center gap-x-8 gap-y-4 text-center max-w-6xl transition-transform duration-1000"
+        style={{ transform: `translateY(${layoutTranslateY}px)` }}
+      >
         {words.map((word, i) => {
           // Snappy 60fps spring animation
           // Staggered rapidly (every 10 frames = ~160ms)
@@ -107,20 +108,22 @@ const SceneText: React.FC<{ text: string, fps: number, isCTA?: boolean }> = ({ t
         })}
       </div>
 
-      {/* For the final scene, fade in a sleek CTA button after the text finishes */}
-      {isCTA && (
-        <div
-          className="absolute bottom-32 opacity-0"
-          style={{
-            opacity: interpolate(frame, [words.length * 10 + 30, words.length * 10 + 60], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }),
-            transform: `translateY(${interpolate(frame, [words.length * 10 + 30, words.length * 10 + 60], [20, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })}px)`
-          }}
-        >
-          <div className="px-12 py-6 bg-white text-black text-4xl font-semibold rounded-full shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:scale-105 transition-transform">
-            Get Started
-          </div>
+      {/* UI Layers */}
+
+      {/* Dashboard appears below text in Scene 2 */}
+      {showDashboard && (
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 mt-16 z-10">
+          <MockDashboard />
         </div>
       )}
+
+      {/* CTA Input appears below text in Scene 3 */}
+      {isCTA && (
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 mt-16 z-30">
+          <MockInputCTA />
+        </div>
+      )}
+
     </AbsoluteFill>
   );
 };

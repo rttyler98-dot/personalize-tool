@@ -6,22 +6,22 @@
   - Local:        http://localhost:3000
 
  ✓ Starting...
- ✓ Ready in 2.3s
+ ✓ Ready in 2.1s
  ○ Compiling / ...
- ✓ Compiled / in 3.4s (524 modules)
- GET / 200 in 4110ms
- ✓ Compiled in 698ms (257 modules)
+ ✓ Compiled / in 3.2s (526 modules)
+ GET / 200 in 4033ms
+ ✓ Compiled in 786ms (258 modules)
  ○ Compiling /api/generate-message ...
- ✓ Compiled /api/generate-message in 693ms (441 modules)
+ ✓ Compiled /api/generate-message in 701ms (442 modules)
 OPENAI_API_KEY is not set. Returning a mock message.
- POST /api/generate-message 200 in 851ms
- ✓ Compiled /api/tts in 127ms (443 modules)
+ POST /api/generate-message 200 in 907ms
+ ✓ Compiled /api/tts in 176ms (444 modules)
 OPENAI_API_KEY is not set. Cannot generate TTS audio.
- GET /api/tts?text=Hey%20Charlie.%20Struggling%3F 204 in 227ms
+ GET /api/tts?text=Hey%20Charlie.%20Struggling%3F 204 in 290ms
 OPENAI_API_KEY is not set. Cannot generate TTS audio.
- GET /api/tts?text=Automate%20everything.%20Save%20time. 204 in 15ms
+ GET /api/tts?text=Automate%20everything.%20Save%20time. 204 in 29ms
 OPENAI_API_KEY is not set. Cannot generate TTS audio.
- GET /api/tts?text=Start%20free%20trial. 204 in 25ms
+ GET /api/tts?text=Start%20free%20trial. 204 in 18ms
 OPENAI_API_KEY is not set. Cannot generate TTS audio.
- GET /api/tts?text=Hey%20Charlie.%20Struggling%3F 204 in 24ms
+ GET /api/tts?text=Hey%20Charlie.%20Struggling%3F 204 in 23ms
 [?25h
