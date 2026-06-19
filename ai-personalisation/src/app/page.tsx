@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import { Player } from "@remotion/player";
-import { VideoComposition } from "@/components/VideoComposition";
+import { VideoComposition, VideoCompositionProps } from "@/components/VideoComposition";
 import { Loader2, Wand2 } from "lucide-react";
 
 export default function Home() {
   const [name, setName] = useState("");
   const [topic, setTopic] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
-  const [videoData, setVideoData] = useState<{ name: string; message: string } | null>(null);
+  const [videoData, setVideoData] = useState<VideoCompositionProps | null>(null);
   const [error, setError] = useState("");
 
   const handleGenerate = async (e: React.FormEvent) => {
@@ -39,7 +39,9 @@ export default function Home() {
 
       setVideoData({
         name,
-        message: data.message,
+        hook: data.hook,
+        valueProp: data.valueProp,
+        cta: data.cta,
       });
     } catch (err: any) {
       setError(err.message || "An unexpected error occurred");
@@ -55,10 +57,10 @@ export default function Home() {
         <div className="bg-white dark:bg-neutral-900 rounded-3xl p-8 shadow-xl border border-neutral-200 dark:border-neutral-800">
           <div className="mb-8">
             <h1 className="text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white mb-4">
-              AI Video Personalisation
+              AI SaaS Ad Generator
             </h1>
             <p className="text-lg text-neutral-600 dark:text-neutral-400">
-              Create a unique, personalized video experience tailored to your audience using AI.
+              Create a unique, 15-second personalized video ad tailored to your audience using AI.
             </p>
           </div>
 
@@ -79,14 +81,14 @@ export default function Home() {
 
             <div>
               <label htmlFor="topic" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-                Topic or Interest
+                User&apos;s Pain Point or Goal
               </label>
               <input
                 type="text"
                 id="topic"
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
-                placeholder="e.g. Next.js, Mountain Biking, Space"
+                placeholder="e.g. managing remote teams, slow build times"
                 className="w-full px-4 py-3 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
               />
             </div>
@@ -105,12 +107,12 @@ export default function Home() {
               {isGenerating ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
-                  Generating Magic...
+                  Generating Script & Video...
                 </>
               ) : (
                 <>
                   <Wand2 className="w-5 h-5" />
-                  Generate Personalized Video
+                  Generate SaaS Ad
                 </>
               )}
             </button>
@@ -123,11 +125,8 @@ export default function Home() {
             {videoData ? (
               <Player
                 component={VideoComposition}
-                inputProps={{
-                  name: videoData.name,
-                  message: videoData.message,
-                }}
-                durationInFrames={120} // 4 seconds at 30fps
+                inputProps={videoData}
+                durationInFrames={450} // 15 seconds at 30fps
                 fps={30}
                 compositionWidth={1920}
                 compositionHeight={1080}
@@ -142,14 +141,14 @@ export default function Home() {
             ) : (
               <div className="text-center p-8 flex flex-col items-center text-neutral-500 dark:text-neutral-400">
                 <Wand2 className="w-16 h-16 mb-4 opacity-50" />
-                <p className="text-lg font-medium">Your personalized video will appear here</p>
+                <p className="text-lg font-medium">Your SaaS Ad will appear here</p>
                 <p className="text-sm mt-2">Fill out the form and hit generate!</p>
               </div>
             )}
           </div>
           {videoData && (
             <p className="mt-4 text-sm text-neutral-500 dark:text-neutral-400 font-medium bg-neutral-100 dark:bg-neutral-900 px-4 py-2 rounded-full border border-neutral-200 dark:border-neutral-800">
-              Previewing personalized video for {videoData.name}
+              Previewing 15s Ad for {videoData.name}
             </p>
           )}
         </div>

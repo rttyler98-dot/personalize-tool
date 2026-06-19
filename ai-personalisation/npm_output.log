@@ -15,3 +15,11 @@
  ✓ Compiled /api/generate-message in 2.8s (443 modules)
 OPENAI_API_KEY is not set. Returning a mock message.
  POST /api/generate-message 200 in 2979ms
+ ✓ Compiled in 4s (530 modules)
+ ✓ Compiled in 937ms (530 modules)
+ ✓ Compiled in 439ms (530 modules)
+ GET / 200 in 177ms
+ ✓ Compiled /api/generate-message in 427ms (443 modules)
+OPENAI_API_KEY is not set. Returning a mock message.
+ POST /api/generate-message 200 in 679ms
+[?25h
