@@ -46,6 +46,7 @@ export default function Home() {
         themeColor: data.themeColor,
         fontStyle: data.fontStyle,
         animationStyle: data.animationStyle,
+        uiText: data.uiText,
       });
     } catch (err: any) {
       setError(err.message || "An unexpected error occurred");

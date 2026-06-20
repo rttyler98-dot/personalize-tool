@@ -27,7 +27,8 @@ export async function POST(request: Request) {
         uiType: randomUiType,
         themeColor: '#4f46e5',
         fontStyle: 'sans',
-        animationStyle: 'zoom'
+        animationStyle: 'zoom',
+        uiText: ["System Status: Online", "Resolving issues...", "Success!"]
       });
     }
 
@@ -42,14 +43,15 @@ You are writing an ad FOR a company/brand, addressing a general audience (e.g. "
 
 The copy MUST be extremely short. Use only 2-5 words per phrase. Make it dramatic, powerful, and succinct. It must DIRECTLY address the exact explanation or description provided by the user.
 
-You must output a JSON object with EXACTLY seven keys:
+You must output a JSON object with EXACTLY eight keys:
 1. "hook": Extremely short address to the audience's specific problem described in the prompt. (e.g. "Hey you. Too much work?")
 2. "valueProp": Extremely short explanation of the brand's exact solution to the described problem. (e.g. "We automate it. Faster.")
 3. "cta": Extremely short call to action including the brand name if possible. (e.g. "Try [Brand] now.")
 4. "uiType": Carefully analyze the user's description. Based on the specific context of the brand and the problem, select the most appropriate visual UI representation from these options exactly: "dashboard", "code", or "chat".
 5. "themeColor": A hex color code (e.g. "#ff0000") that fits the vibe of the brand and topic.
 6. "fontStyle": Select a font style from exactly these options based on the vibe: "sans", "serif", or "mono".
-7. "animationStyle": Select how the text should animate in from exactly these options: "zoom", "slide", or "fade".`
+7. "animationStyle": Select how the text should animate in from exactly these options: "zoom", "slide", or "fade".
+8. "uiText": An array of exactly 3 short strings that fit the selected "uiType" and the brand's context. For "chat", make it a 3-message conversation about the problem. For "code", make it 3 lines of pseudo-code solving the problem. For "dashboard", make it 3 short metric labels (e.g., "Revenue", "Uptime", "Speed").`
         },
         {
           role: "user",
@@ -57,7 +59,7 @@ You must output a JSON object with EXACTLY seven keys:
         }
       ],
       temperature: 0.7,
-      max_tokens: 250,
+      max_tokens: 350,
     });
 
     const content = completion.choices[0]?.message?.content?.trim();
@@ -80,6 +82,11 @@ You must output a JSON object with EXACTLY seven keys:
 
     const themeColor = /^#([0-9A-F]{3}){1,2}$/i.test(parsed.themeColor) ? parsed.themeColor : '#4f46e5';
 
+    let uiText = parsed.uiText;
+    if (!Array.isArray(uiText) || uiText.length !== 3) {
+       uiText = ["System Status: Online", "Resolving issues...", "Success!"];
+    }
+
     return NextResponse.json({
       hook: parsed.hook || `Hey you. Listen.`,
       valueProp: parsed.valueProp || "We fix it.",
@@ -87,7 +94,8 @@ You must output a JSON object with EXACTLY seven keys:
       uiType: uiType,
       themeColor: themeColor,
       fontStyle: fontStyle,
-      animationStyle: animationStyle
+      animationStyle: animationStyle,
+      uiText: uiText
      });
   } catch (error) {
     console.error('Error generating message:', error);

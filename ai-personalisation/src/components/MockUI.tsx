@@ -1,12 +1,19 @@
 import React from 'react';
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
 
+interface MockUIProps {
+  uiText?: string[];
+}
+
+const defaultText = ["Item 1", "Item 2", "Item 3"];
+
 // ==========================================
 // 1. Dashboard UI (Analytics / SaaS)
 // ==========================================
-export const MockDashboard: React.FC = () => {
+export const MockDashboard: React.FC<MockUIProps> = ({ uiText }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const texts = uiText || defaultText;
 
   const scale = spring({
     fps,
@@ -32,16 +39,15 @@ export const MockDashboard: React.FC = () => {
         <div className="ml-4 w-24 h-2 bg-white/10 rounded-full"></div>
       </div>
       <div className="flex-1 flex p-6 gap-6">
-        <div className="w-1/4 flex flex-col gap-4 border-r border-white/5 pr-4">
-          <div className="w-full h-3 bg-white/20 rounded-full"></div>
-          <div className="w-3/4 h-3 bg-white/10 rounded-full"></div>
-          <div className="w-5/6 h-3 bg-white/10 rounded-full"></div>
-          <div className="w-1/2 h-3 bg-white/10 rounded-full mt-auto"></div>
+        <div className="w-1/3 flex flex-col gap-4 border-r border-white/5 pr-4 justify-center">
+          <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-indigo-500" /><div className="text-white/80 text-sm truncate">{texts[0]}</div></div>
+          <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-emerald-500" /><div className="text-white/80 text-sm truncate">{texts[1]}</div></div>
+          <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-pink-500" /><div className="text-white/80 text-sm truncate">{texts[2]}</div></div>
         </div>
         <div className="flex-1 flex flex-col gap-4">
           <div className="flex justify-between items-end">
             <div>
-              <div className="w-16 h-2 bg-white/20 rounded-full mb-2"></div>
+              <div className="text-neutral-400 text-xs mb-1 uppercase tracking-wider">{texts[0]}</div>
               <div className="text-3xl font-light text-white tracking-tight">84.2k</div>
             </div>
             <div className="px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs rounded-full border border-emerald-500/30">
@@ -71,9 +77,10 @@ export const MockDashboard: React.FC = () => {
 // ==========================================
 // 2. Code Editor UI (DevTools / DevOps)
 // ==========================================
-export const MockCodeEditor: React.FC = () => {
+export const MockCodeEditor: React.FC<MockUIProps> = ({ uiText }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const texts = uiText || defaultText;
 
   const scale = spring({
     fps,
@@ -97,15 +104,14 @@ export const MockCodeEditor: React.FC = () => {
         <div className="ml-4 text-neutral-400 text-xs">app.ts</div>
       </div>
       <div className="p-6 text-sm leading-relaxed overflow-hidden">
-        <div className="text-pink-400">import <span className="text-white">{'{'}</span> useState <span className="text-white">{'}'}</span> from <span className="text-green-300">&apos;react&apos;</span>;</div>
-        <div className="mt-2 text-blue-400">function <span className="text-yellow-200">App</span><span className="text-white">() {'{'}</span></div>
-        <div className="pl-4 text-pink-400">const <span className="text-white">[data, setData] =</span> <span className="text-blue-300">useState</span><span className="text-white">(</span><span className="text-purple-400">null</span><span className="text-white">);</span></div>
-        <div className="mt-2 pl-4 text-neutral-500">{`// Magic happens here`}</div>
-        <div className="pl-4 text-pink-400">return <span className="text-white">(</span></div>
-        <div className="pl-8 text-white">{'<'}div className=<span className="text-green-300">&quot;app&quot;</span>{'>'}</div>
-        <div className="pl-12 text-white">Hello World</div>
-        <div className="pl-8 text-white">{'</'}div{'>'}</div>
-        <div className="pl-4 text-white">)</div>
+        <div className="text-pink-400">import <span className="text-white">{'{'}</span> App <span className="text-white">{'}'}</span> from <span className="text-green-300">&apos;./main&apos;</span>;</div>
+        <div className="mt-2 text-blue-400">function <span className="text-yellow-200">execute</span><span className="text-white">() {'{'}</span></div>
+        <div className="mt-2 pl-4 text-neutral-500">{`// ${texts[0]}`}</div>
+        <div className="pl-4 text-white"><span className="text-blue-300">await</span> <span className="text-yellow-200">App</span>.<span className="text-blue-300">init</span>();</div>
+        <div className="mt-2 pl-4 text-neutral-500">{`// ${texts[1]}`}</div>
+        <div className="pl-4 text-white"><span className="text-blue-300">const</span> result <span className="text-white">=</span> <span className="text-blue-300">await</span> <span className="text-yellow-200">App</span>.<span className="text-blue-300">run</span>();</div>
+        <div className="mt-2 pl-4 text-neutral-500">{`// ${texts[2]}`}</div>
+        <div className="pl-4 text-white"><span className="text-yellow-200">console</span>.<span className="text-blue-300">log</span>(result);</div>
         <div className="text-white">{'}'}</div>
       </div>
     </div>
@@ -115,9 +121,10 @@ export const MockCodeEditor: React.FC = () => {
 // ==========================================
 // 3. Chat / Messaging UI (Communication/AI)
 // ==========================================
-export const MockChatUI: React.FC = () => {
+export const MockChatUI: React.FC<MockUIProps> = ({ uiText }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const texts = uiText || defaultText;
 
   const scale = spring({
     fps,
@@ -142,19 +149,19 @@ export const MockChatUI: React.FC = () => {
       <div className="h-16 border-b border-white/10 flex items-center px-6">
         <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-pink-500 to-purple-500"></div>
         <div className="ml-4">
-          <div className="text-white font-medium">AI Assistant</div>
+          <div className="text-white font-medium">Assistant</div>
           <div className="text-green-400 text-xs">Online</div>
         </div>
       </div>
       <div className="flex-1 p-6 flex flex-col gap-4 overflow-hidden">
         <div className="self-end max-w-[80%] bg-blue-600 text-white p-3 rounded-2xl rounded-tr-none text-sm" style={{ transform: `scale(${bubble1Scale})`, transformOrigin: 'top right' }}>
-          Can you analyze this data?
+          {texts[0]}
         </div>
         <div className="self-start max-w-[80%] bg-neutral-800 text-white p-3 rounded-2xl rounded-tl-none text-sm" style={{ transform: `scale(${bubble2Scale})`, transformOrigin: 'top left' }}>
-          I found 3 key insights.
+          {texts[1]}
         </div>
         <div className="self-end max-w-[80%] bg-blue-600 text-white p-3 rounded-2xl rounded-tr-none text-sm" style={{ transform: `scale(${bubble3Scale})`, transformOrigin: 'top right' }}>
-          Perfect, generate the report.
+          {texts[2]}
         </div>
       </div>
       <div className="h-16 border-t border-white/10 flex items-center px-4 gap-2">

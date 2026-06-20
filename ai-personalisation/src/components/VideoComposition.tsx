@@ -11,6 +11,7 @@ export interface VideoCompositionProps {
   themeColor?: string;
   fontStyle?: 'sans' | 'serif' | 'mono';
   animationStyle?: 'zoom' | 'slide' | 'fade';
+  uiText?: string[];
 }
 
 export const VideoComposition: React.FC<VideoCompositionProps> = ({
@@ -21,7 +22,8 @@ export const VideoComposition: React.FC<VideoCompositionProps> = ({
   uiType = 'dashboard',
   themeColor = '#4f46e5',
   fontStyle = 'sans',
-  animationStyle = 'zoom'
+  animationStyle = 'zoom',
+  uiText = ["System Status: Online", "Resolving issues...", "Success!"]
 }) => {
   const { fps } = useVideoConfig();
 
@@ -42,7 +44,7 @@ export const VideoComposition: React.FC<VideoCompositionProps> = ({
 
       <Sequence from={180} durationInFrames={180}>
         <Audio src={valuePropAudioSrc} />
-        <SceneText text={valueProp} fps={fps} uiType={uiType} animationStyle={animationStyle} />
+        <SceneText text={valueProp} fps={fps} uiType={uiType} animationStyle={animationStyle} uiText={uiText} />
       </Sequence>
 
       <Sequence from={360} durationInFrames={180}>
@@ -76,8 +78,9 @@ const SceneText: React.FC<{
   fps: number,
   isCTA?: boolean,
   uiType?: 'dashboard' | 'code' | 'chat',
-  animationStyle?: 'zoom' | 'slide' | 'fade'
-}> = ({ text, fps, isCTA, uiType, animationStyle = 'zoom' }) => {
+  animationStyle?: 'zoom' | 'slide' | 'fade',
+  uiText?: string[]
+}> = ({ text, fps, isCTA, uiType, animationStyle = 'zoom', uiText }) => {
   const frame = useCurrentFrame();
   const words = text.split(' ');
 
@@ -85,9 +88,9 @@ const SceneText: React.FC<{
 
   const renderUI = () => {
     switch (uiType) {
-      case 'dashboard': return <MockDashboard />;
-      case 'code': return <MockCodeEditor />;
-      case 'chat': return <MockChatUI />;
+      case 'dashboard': return <MockDashboard uiText={uiText} />;
+      case 'code': return <MockCodeEditor uiText={uiText} />;
+      case 'chat': return <MockChatUI uiText={uiText} />;
       default: return null;
     }
   }
