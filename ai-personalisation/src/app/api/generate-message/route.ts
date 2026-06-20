@@ -21,9 +21,9 @@ export async function POST(request: Request) {
       const validUiTypes = ['dashboard', 'code', 'chat'];
       const randomUiType = validUiTypes[Math.floor(Math.random() * validUiTypes.length)];
       return NextResponse.json({
-        hook: `Hey you. Tired of silence?`,
-        valueProp: `Millions of songs. Instantly.`,
-        cta: `Get ${name} Premium.`,
+        hook: `Struggling with ${topic.slice(0, 15)}...?`,
+        valueProp: `We fix it. Fast.`,
+        cta: `Try ${name} now.`,
         uiType: randomUiType,
         themeColor: '#4f46e5',
         fontStyle: 'sans',
