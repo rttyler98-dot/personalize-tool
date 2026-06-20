@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import OpenAI from 'openai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const openai = process.env.OPENAI_API_KEY ? new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-}) : null;
+// Initialize Gemini with the provided API key or environment variable
+const apiKey = process.env.GEMINI_API_KEY;
+const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
 
 export async function POST(request: Request) {
   try {
@@ -16,8 +16,8 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!openai) {
-      console.warn('OPENAI_API_KEY is not set. Returning a mock message.');
+    if (!genAI) {
+      console.warn('GEMINI_API_KEY is not set. Returning a mock message.');
       const validUiTypes = ['dashboard', 'code', 'chat'];
       const randomUiType = validUiTypes[Math.floor(Math.random() * validUiTypes.length)];
       return NextResponse.json({
@@ -32,18 +32,17 @@ export async function POST(request: Request) {
       });
     }
 
-    const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      response_format: { type: "json_object" },
-      messages: [
-        {
-          role: "system",
-          content: `You are writing a script for a fast-paced, 60fps video ad in the minimalist, punchy style of Apple commercials.
-You are writing an ad FOR a company/brand, addressing a general audience (e.g. "Hey you", "Listen up", "Struggling?"). Do NOT address the user by name.
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
+    const prompt = `
+You are writing a script for a fast-paced, 60fps video ad in the minimalist, punchy style of Apple commercials.
+You are writing an ad FOR a company/brand named ${name}, addressing a general audience (e.g. "Hey you", "Listen up", "Struggling?"). Do NOT address the user by name.
+
+The problem they solve or goal they help with is: ${topic}. It is CRITICAL that the ad directly speaks to this specific problem and goal.
 
 The copy MUST be extremely short. Use only 2-5 words per phrase. Make it dramatic, powerful, and succinct. It must DIRECTLY address the exact explanation or description provided by the user.
 
-You must output a JSON object with EXACTLY eight keys:
+You must output ONLY a valid JSON object (no markdown formatting, no code blocks) with EXACTLY eight keys:
 1. "hook": Extremely short address to the audience's specific problem described in the prompt. (e.g. "Hey you. Too much work?")
 2. "valueProp": Extremely short explanation of the brand's exact solution to the described problem. (e.g. "We automate it. Faster.")
 3. "cta": Extremely short call to action including the brand name if possible. (e.g. "Try [Brand] now.")
@@ -51,18 +50,17 @@ You must output a JSON object with EXACTLY eight keys:
 5. "themeColor": A hex color code (e.g. "#ff0000") that fits the vibe of the brand and topic.
 6. "fontStyle": Select a font style from exactly these options based on the vibe: "sans", "serif", or "mono".
 7. "animationStyle": Select how the text should animate in from exactly these options: "zoom", "slide", or "fade".
-8. "uiText": An array of exactly 3 short strings that fit the selected "uiType" and the brand's context. For "chat", make it a 3-message conversation about the problem. For "code", make it 3 lines of pseudo-code solving the problem. For "dashboard", make it 3 short metric labels (e.g., "Revenue", "Uptime", "Speed").`
-        },
-        {
-          role: "user",
-          content: `Write an ultra-short, punchy ad script for the brand/company named ${name}. The problem they solve or goal they help with is: ${topic}. It is CRITICAL that the ad directly speaks to this specific problem and goal.`
-        }
-      ],
-      temperature: 0.7,
-      max_tokens: 350,
-    });
+8. "uiText": An array of exactly 3 short strings that fit the selected "uiType" and the brand's context. For "chat", make it a 3-message conversation about the problem. For "code", make it 3 lines of pseudo-code solving the problem. For "dashboard", make it 3 short metric labels (e.g., "Revenue", "Uptime", "Speed").`;
 
-    const content = completion.choices[0]?.message?.content?.trim();
+    const result = await model.generateContent(prompt);
+    let content = result.response.text().trim();
+
+    // Remove markdown formatting if present
+    if (content.startsWith('```json')) {
+      content = content.slice(7, -3).trim();
+    } else if (content.startsWith('```')) {
+      content = content.slice(3, -3).trim();
+    }
 
     if (!content) {
       throw new Error('Failed to generate message');

@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@google/genai": "^2.9.0",
+    "@google/generative-ai": "^0.24.1",
     "@remotion/lottie": "^4.0.474",
     "@remotion/player": "^4.0.474",
     "lucide-react": "^1.17.0",

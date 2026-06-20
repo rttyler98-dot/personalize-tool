@@ -33,22 +33,26 @@ export const VideoComposition: React.FC<VideoCompositionProps> = ({
 
   const fontClass = fontStyle === 'serif' ? 'font-serif' : fontStyle === 'mono' ? 'font-mono' : 'font-sans';
 
+  // We bypass audio if we are missing the env var to avoid crashing the Remotion player.
+  // Using a Next.js public env var check so it works on the client side during render.
+  const hasAudio = !!process.env.NEXT_PUBLIC_OPENAI_API_KEY;
+
   return (
     <AbsoluteFill className={`bg-black ${fontClass} overflow-hidden`}>
       <DynamicBackground themeColor={themeColor} />
 
       <Sequence from={0} durationInFrames={180}>
-        <Audio src={hookAudioSrc} />
+        {hasAudio && <Audio src={hookAudioSrc} />}
         <SceneText text={hook} fps={fps} animationStyle={animationStyle} />
       </Sequence>
 
       <Sequence from={180} durationInFrames={180}>
-        <Audio src={valuePropAudioSrc} />
+        {hasAudio && <Audio src={valuePropAudioSrc} />}
         <SceneText text={valueProp} fps={fps} uiType={uiType} animationStyle={animationStyle} uiText={uiText} />
       </Sequence>
 
       <Sequence from={360} durationInFrames={180}>
-        <Audio src={ctaAudioSrc} />
+        {hasAudio && <Audio src={ctaAudioSrc} />}
         <SceneText text={cta} fps={fps} isCTA animationStyle={animationStyle} />
       </Sequence>
     </AbsoluteFill>
