@@ -24,7 +24,10 @@ export async function POST(request: Request) {
         hook: `Hey you. Tired of silence?`,
         valueProp: `Millions of songs. Instantly.`,
         cta: `Get ${name} Premium.`,
-        uiType: randomUiType
+        uiType: randomUiType,
+        themeColor: '#4f46e5',
+        fontStyle: 'sans',
+        animationStyle: 'zoom'
       });
     }
 
@@ -39,11 +42,14 @@ You are writing an ad FOR a company/brand, addressing a general audience (e.g. "
 
 The copy MUST be extremely short. Use only 2-5 words per phrase. Make it dramatic, powerful, and succinct. It must DIRECTLY address the exact explanation or description provided by the user.
 
-You must output a JSON object with exactly four keys:
+You must output a JSON object with EXACTLY seven keys:
 1. "hook": Extremely short address to the audience's specific problem described in the prompt. (e.g. "Hey you. Too much work?")
 2. "valueProp": Extremely short explanation of the brand's exact solution to the described problem. (e.g. "We automate it. Faster.")
 3. "cta": Extremely short call to action including the brand name if possible. (e.g. "Try [Brand] now.")
-4. "uiType": Carefully analyze the user's description. Based on the specific context of the brand and the problem, select the most appropriate visual UI representation from these options exactly: "dashboard", "code", or "chat".`
+4. "uiType": Carefully analyze the user's description. Based on the specific context of the brand and the problem, select the most appropriate visual UI representation from these options exactly: "dashboard", "code", or "chat".
+5. "themeColor": A hex color code (e.g. "#ff0000") that fits the vibe of the brand and topic.
+6. "fontStyle": Select a font style from exactly these options based on the vibe: "sans", "serif", or "mono".
+7. "animationStyle": Select how the text should animate in from exactly these options: "zoom", "slide", or "fade".`
         },
         {
           role: "user",
@@ -51,7 +57,7 @@ You must output a JSON object with exactly four keys:
         }
       ],
       temperature: 0.7,
-      max_tokens: 150,
+      max_tokens: 250,
     });
 
     const content = completion.choices[0]?.message?.content?.trim();
@@ -62,15 +68,26 @@ You must output a JSON object with exactly four keys:
 
     const parsed = JSON.parse(content);
 
-    // Ensure uiType is one of the allowed values
+    // Ensure types are valid
     const validUiTypes = ['dashboard', 'code', 'chat'];
     const uiType = validUiTypes.includes(parsed.uiType) ? parsed.uiType : 'dashboard';
+
+    const validFontStyles = ['sans', 'serif', 'mono'];
+    const fontStyle = validFontStyles.includes(parsed.fontStyle) ? parsed.fontStyle : 'sans';
+
+    const validAnimationStyles = ['zoom', 'slide', 'fade'];
+    const animationStyle = validAnimationStyles.includes(parsed.animationStyle) ? parsed.animationStyle : 'zoom';
+
+    const themeColor = /^#([0-9A-F]{3}){1,2}$/i.test(parsed.themeColor) ? parsed.themeColor : '#4f46e5';
 
     return NextResponse.json({
       hook: parsed.hook || `Hey you. Listen.`,
       valueProp: parsed.valueProp || "We fix it.",
       cta: parsed.cta || `Try ${name} now.`,
-      uiType: uiType
+      uiType: uiType,
+      themeColor: themeColor,
+      fontStyle: fontStyle,
+      animationStyle: animationStyle
      });
   } catch (error) {
     console.error('Error generating message:', error);

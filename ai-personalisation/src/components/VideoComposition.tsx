@@ -8,38 +8,52 @@ export interface VideoCompositionProps {
   valueProp: string;
   cta: string;
   uiType?: 'dashboard' | 'code' | 'chat';
+  themeColor?: string;
+  fontStyle?: 'sans' | 'serif' | 'mono';
+  animationStyle?: 'zoom' | 'slide' | 'fade';
 }
 
-export const VideoComposition: React.FC<VideoCompositionProps> = ({ name, hook, valueProp, cta, uiType = 'dashboard' }) => {
+export const VideoComposition: React.FC<VideoCompositionProps> = ({
+  name,
+  hook,
+  valueProp,
+  cta,
+  uiType = 'dashboard',
+  themeColor = '#4f46e5',
+  fontStyle = 'sans',
+  animationStyle = 'zoom'
+}) => {
   const { fps } = useVideoConfig();
 
   const hookAudioSrc = `/api/tts?text=${encodeURIComponent(hook)}`;
   const valuePropAudioSrc = `/api/tts?text=${encodeURIComponent(valueProp)}`;
   const ctaAudioSrc = `/api/tts?text=${encodeURIComponent(cta)}`;
 
+  const fontClass = fontStyle === 'serif' ? 'font-serif' : fontStyle === 'mono' ? 'font-mono' : 'font-sans';
+
   return (
-    <AbsoluteFill className="bg-black font-sans overflow-hidden">
-      <DynamicBackground />
+    <AbsoluteFill className={`bg-black ${fontClass} overflow-hidden`}>
+      <DynamicBackground themeColor={themeColor} />
 
       <Sequence from={0} durationInFrames={180}>
         <Audio src={hookAudioSrc} />
-        <SceneText text={hook} fps={fps} />
+        <SceneText text={hook} fps={fps} animationStyle={animationStyle} />
       </Sequence>
 
       <Sequence from={180} durationInFrames={180}>
         <Audio src={valuePropAudioSrc} />
-        <SceneText text={valueProp} fps={fps} uiType={uiType} />
+        <SceneText text={valueProp} fps={fps} uiType={uiType} animationStyle={animationStyle} />
       </Sequence>
 
       <Sequence from={360} durationInFrames={180}>
         <Audio src={ctaAudioSrc} />
-        <SceneText text={cta} fps={fps} isCTA />
+        <SceneText text={cta} fps={fps} isCTA animationStyle={animationStyle} />
       </Sequence>
     </AbsoluteFill>
   );
 };
 
-const DynamicBackground: React.FC = () => {
+const DynamicBackground: React.FC<{ themeColor: string }> = ({ themeColor }) => {
   const frame = useCurrentFrame();
   const rotation = interpolate(frame, [0, 900], [0, 90]);
   const scale = interpolate(Math.sin(frame / 300), [-1, 1], [1, 1.2]);
@@ -49,7 +63,7 @@ const DynamicBackground: React.FC = () => {
       <div
         className="absolute w-[150vw] h-[150vw] rounded-full blur-[120px] opacity-20"
         style={{
-          background: 'conic-gradient(from 180deg at 50% 50%, #171717 0deg, #4f46e5 180deg, #171717 360deg)',
+          background: `conic-gradient(from 180deg at 50% 50%, #171717 0deg, ${themeColor} 180deg, #171717 360deg)`,
           transform: `rotate(${rotation}deg) scale(${scale})`,
         }}
       />
@@ -57,7 +71,13 @@ const DynamicBackground: React.FC = () => {
   );
 }
 
-const SceneText: React.FC<{ text: string, fps: number, isCTA?: boolean, uiType?: 'dashboard' | 'code' | 'chat' }> = ({ text, fps, isCTA, uiType }) => {
+const SceneText: React.FC<{
+  text: string,
+  fps: number,
+  isCTA?: boolean,
+  uiType?: 'dashboard' | 'code' | 'chat',
+  animationStyle?: 'zoom' | 'slide' | 'fade'
+}> = ({ text, fps, isCTA, uiType, animationStyle = 'zoom' }) => {
   const frame = useCurrentFrame();
   const words = text.split(' ');
 
@@ -80,20 +100,45 @@ const SceneText: React.FC<{ text: string, fps: number, isCTA?: boolean, uiType?:
         style={{ transform: `translateY(${layoutTranslateY}px)` }}
       >
         {words.map((word, i) => {
-          const wordScale = spring({
-            fps,
-            frame: frame - (i * 10),
-            config: { damping: 16, stiffness: 200, mass: 0.5 },
-          });
+          const delay = i * (animationStyle === 'fade' ? 15 : 10);
+          const relativeFrame = Math.max(0, frame - delay);
 
-          const wordOpacity = interpolate(frame - (i * 10), [0, 8], [0, 1], {
-            extrapolateLeft: 'clamp', extrapolateRight: 'clamp'
-          });
+          let wordTransform = '';
+          let wordOpacity = 1;
+
+          if (animationStyle === 'zoom') {
+            const wordScale = spring({
+              fps,
+              frame: relativeFrame,
+              config: { damping: 16, stiffness: 200, mass: 0.5 },
+            });
+            wordOpacity = interpolate(relativeFrame, [0, 8], [0, 1], {
+              extrapolateLeft: 'clamp', extrapolateRight: 'clamp'
+            });
+            wordTransform = `scale(${wordScale})`;
+          } else if (animationStyle === 'slide') {
+            const wordTranslateY = spring({
+              fps,
+              frame: relativeFrame,
+              config: { damping: 20, stiffness: 150 },
+              from: 100,
+              to: 0
+            });
+            wordOpacity = interpolate(relativeFrame, [0, 10], [0, 1], {
+              extrapolateLeft: 'clamp', extrapolateRight: 'clamp'
+            });
+            wordTransform = `translateY(${wordTranslateY}px)`;
+          } else if (animationStyle === 'fade') {
+            wordOpacity = interpolate(relativeFrame, [0, 30], [0, 1], {
+              extrapolateLeft: 'clamp', extrapolateRight: 'clamp'
+            });
+            wordTransform = `scale(1)`;
+          }
 
           return (
             <span
               key={i}
-              style={{ transform: `scale(${wordScale})`, opacity: wordOpacity }}
+              style={{ transform: wordTransform, opacity: wordOpacity }}
               className="text-8xl md:text-9xl font-semibold tracking-tight text-white drop-shadow-2xl"
             >
               {word}

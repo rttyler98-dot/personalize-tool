@@ -43,6 +43,9 @@ export default function Home() {
         valueProp: data.valueProp,
         cta: data.cta,
         uiType: data.uiType,
+        themeColor: data.themeColor,
+        fontStyle: data.fontStyle,
+        animationStyle: data.animationStyle,
       });
     } catch (err: any) {
       setError(err.message || "An unexpected error occurred");
