@@ -1,0 +1,114 @@
+
+> ai-personalisation@0.1.0 dev
+> next dev
+
+  ▲ Next.js 14.2.3
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+ ✓ Ready in 4.1s
+ ○ Compiling / ...
+ ✓ Compiled / in 7.8s (535 modules)
+ GET / 200 in 8902ms
+ ✓ Compiled in 1070ms (258 modules)
+ ○ Compiling /api/generate-message ...
+ ✓ Compiled /api/generate-message in 4.7s (297 modules)
+Error generating message: SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>)
+    at parseJSONFromBytes (node:internal/deps/undici/undici:5852:19)
+    at successSteps (node:internal/deps/undici/undici:5833:27)
+    at consumeBody (node:internal/deps/undici/undici:5839:9)
+    at NextRequest.json (node:internal/deps/undici/undici:5779:18)
+    at POST (webpack-internal:///(rsc)/./src/app/api/generate-message/route.ts:14:47)
+    at /app/ai-personalisation/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:53452
+    at /app/ai-personalisation/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/app/ai-personalisation/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
+    at ContextAPI.with (/app/ai-personalisation/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
+    at NoopTracer.startActiveSpan (/app/ai-personalisation/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18093)
+    at ProxyTracer.startActiveSpan (/app/ai-personalisation/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18854)
+    at /app/ai-personalisation/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/app/ai-personalisation/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
+    at ContextAPI.with (/app/ai-personalisation/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
+    at NextTracerImpl.trace (/app/ai-personalisation/node_modules/next/dist/server/lib/trace/tracer.js:122:28)
+    at /app/ai-personalisation/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:46261
+    at AsyncLocalStorage.run (node:internal/async_local_storage/async_hooks:91:14)
+    at Object.wrap (/app/ai-personalisation/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:39188)
+    at /app/ai-personalisation/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:45368
+    at AsyncLocalStorage.run (node:internal/async_local_storage/async_hooks:91:14)
+    at Object.wrap (/app/ai-personalisation/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:37583)
+    at /app/ai-personalisation/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:45330
+    at AsyncLocalStorage.run (node:internal/async_local_storage/async_hooks:91:14)
+    at e_.execute (/app/ai-personalisation/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:44777)
+    at e_.handle (/app/ai-personalisation/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:54711)
+    at doRender (/app/ai-personalisation/node_modules/next/dist/server/base-server.js:1377:60)
+    at cacheEntry.responseCache.get.routeKind (/app/ai-personalisation/node_modules/next/dist/server/base-server.js:1599:34)
+    at ResponseCache.get (/app/ai-personalisation/node_modules/next/dist/server/response-cache/index.js:49:26)
+    at DevServer.renderToResponseWithComponentsImpl (/app/ai-personalisation/node_modules/next/dist/server/base-server.js:1507:53)
+    at /app/ai-personalisation/node_modules/next/dist/server/base-server.js:1002:121
+    at NextTracerImpl.trace (/app/ai-personalisation/node_modules/next/dist/server/lib/trace/tracer.js:105:20)
+    at DevServer.renderToResponseWithComponents (/app/ai-personalisation/node_modules/next/dist/server/base-server.js:1002:41)
+    at DevServer.renderPageComponent (/app/ai-personalisation/node_modules/next/dist/server/base-server.js:1924:35)
+    at async DevServer.renderToResponseImpl (/app/ai-personalisation/node_modules/next/dist/server/base-server.js:1962:32)
+    at async DevServer.pipeImpl (/app/ai-personalisation/node_modules/next/dist/server/base-server.js:920:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/app/ai-personalisation/node_modules/next/dist/server/next-server.js:272:17)
+    at async DevServer.handleRequestImpl (/app/ai-personalisation/node_modules/next/dist/server/base-server.js:816:17)
+    at async /app/ai-personalisation/node_modules/next/dist/server/dev/next-dev-server.js:339:20
+    at async Span.traceAsyncFn (/app/ai-personalisation/node_modules/next/dist/trace/trace.js:154:20)
+    at async DevServer.handleRequest (/app/ai-personalisation/node_modules/next/dist/server/dev/next-dev-server.js:336:24)
+    at async invokeRender (/app/ai-personalisation/node_modules/next/dist/server/lib/router-server.js:174:21)
+    at async handleRequest (/app/ai-personalisation/node_modules/next/dist/server/lib/router-server.js:353:24)
+    at async requestHandlerImpl (/app/ai-personalisation/node_modules/next/dist/server/lib/router-server.js:377:13)
+    at async Server.requestListener (/app/ai-personalisation/node_modules/next/dist/server/lib/start-server.js:141:13)
+ GET / 200 in 181ms
+GEMINI_API_KEY is not set. Returning a mock message.
+ POST /api/generate-message 200 in 13ms
+ GET / 200 in 28ms
+GEMINI_API_KEY is not set. Returning a mock message.
+ POST /api/generate-message 200 in 11ms
+ GET / 200 in 25ms
+GEMINI_API_KEY is not set. Returning a mock message.
+ POST /api/generate-message 200 in 31ms
+ GET / 200 in 35ms
+GEMINI_API_KEY is not set. Returning a mock message.
+ POST /api/generate-message 200 in 13ms
+ ✓ Compiled in 542ms (526 modules)
+ ✓ Compiled in 512ms (526 modules)
+ ✓ Compiled /_not-found in 392ms (515 modules)
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 1758ms (738 modules)
+ GET / 404 in 2331ms
+ GET / 200 in 193ms
+ GET / 200 in 26ms
+ GET /_next/static/chunks/main-app.js?v=1782011212248 404 in 40ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 41ms
+ GET / 200 in 26ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 36ms
+ GET /_next/static/chunks/main-app.js?v=1782011403562 404 in 38ms
+ GET / 200 in 31ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 37ms
+ GET /_next/static/chunks/main-app.js?v=1782011690892 404 in 46ms
+ GET / 200 in 32ms
+ GET /_next/static/css/app/layout.css?v=1782011880903 404 in 30ms
+ GET /_next/static/chunks/main-app.js?v=1782011880903 404 in 63ms
+ GET /_next/static/chunks/webpack.js?v=1782011880903 404 in 64ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 61ms
+ GET /_next/static/chunks/app/page.js 404 in 57ms
+ GET / 200 in 26ms
+ GET /_next/static/css/app/layout.css?v=1782012032508 404 in 29ms
+ GET /_next/static/chunks/main-app.js?v=1782012032508 404 in 64ms
+ GET /_next/static/chunks/app/page.js 404 in 56ms
+ GET /_next/static/chunks/webpack.js?v=1782012032508 404 in 66ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 59ms
+ GET / 200 in 22ms
+ GET /_next/static/css/app/layout.css?v=1782012209772 404 in 40ms
+ GET /_next/static/chunks/webpack.js?v=1782012209772 404 in 67ms
+ GET /_next/static/chunks/main-app.js?v=1782012209772 404 in 67ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 65ms
+ GET /_next/static/chunks/app/page.js 404 in 65ms
+Killed
+ GET / 200 in 27ms
+ GET /_next/static/css/app/layout.css?v=1782012552854 404 in 30ms
+ GET /_next/static/chunks/main-app.js?v=1782012552854 404 in 53ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 52ms
+ GET /_next/static/chunks/app/page.js 404 in 50ms
+ GET /_next/static/chunks/webpack.js?v=1782012552854 404 in 56ms

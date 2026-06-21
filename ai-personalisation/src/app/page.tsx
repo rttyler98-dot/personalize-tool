@@ -12,6 +12,17 @@ export default function Home() {
   const [videoData, setVideoData] = useState<VideoCompositionProps | null>(null);
   const [error, setError] = useState("");
 
+  const presets = [
+    { name: "SaaS Analytics", topic: "My users need a fast dashboard to see their stats." },
+    { name: "DevTool", topic: "Developers spend too much time debugging. They need a faster way to find errors." },
+    { name: "Health App", topic: "Users want to track their daily calories and workouts easily." }
+  ];
+
+  const handlePresetClick = (preset: {name: string, topic: string}) => {
+    setName(preset.name);
+    setTopic(preset.topic);
+  };
+
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !topic.trim()) {
@@ -42,11 +53,10 @@ export default function Home() {
         hook: data.hook,
         valueProp: data.valueProp,
         cta: data.cta,
-        uiType: data.uiType,
         themeColor: data.themeColor,
         fontStyle: data.fontStyle,
         animationStyle: data.animationStyle,
-        uiText: data.uiText,
+        uiBlocks: data.uiBlocks,
       });
     } catch (err: any) {
       setError(err.message || "An unexpected error occurred");
@@ -67,6 +77,19 @@ export default function Home() {
             <p className="text-lg text-neutral-600 dark:text-neutral-400">
               Create a unique, 15-second personalized video ad tailored to your audience using AI.
             </p>
+          </div>
+
+          <div className="mb-6 flex gap-2 flex-wrap">
+            {presets.map((preset, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => handlePresetClick(preset)}
+                className="px-3 py-1.5 text-sm font-medium bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 rounded-full transition-colors border border-neutral-200 dark:border-neutral-700"
+              >
+                {preset.name}
+              </button>
+            ))}
           </div>
 
           <form onSubmit={handleGenerate} className="space-y-6">
@@ -131,7 +154,7 @@ export default function Home() {
               <Player
                 component={VideoComposition}
                 inputProps={videoData}
-                durationInFrames={540} // 9 seconds at 60fps (fast paced)
+                durationInFrames={420} // 7 seconds at 60fps
                 fps={60}
                 compositionWidth={1920}
                 compositionHeight={1080}
@@ -153,7 +176,7 @@ export default function Home() {
           </div>
           {videoData && (
             <p className="mt-4 text-sm text-neutral-500 dark:text-neutral-400 font-medium bg-neutral-100 dark:bg-neutral-900 px-4 py-2 rounded-full border border-neutral-200 dark:border-neutral-800">
-              Previewing 9s Ad for {videoData.name}
+              Previewing 7s Ad for {videoData.name}
             </p>
           )}
         </div>

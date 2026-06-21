@@ -1,0 +1,81 @@
+
+> ai-personalisation@0.1.0 dev
+> next dev
+
+ ⚠ Port 3000 is in use, trying 3001 instead.
+ ⚠ Port 3001 is in use, trying 3002 instead.
+ ⚠ Port 3002 is in use, trying 3003 instead.
+  ▲ Next.js 14.2.3
+  - Local:        http://localhost:3003
+
+ ✓ Starting...
+ ✓ Ready in 1982ms
+ ○ Compiling / ...
+<w> [webpack.cache.PackFileCacheStrategy] Restoring pack from /app/ai-personalisation/.next/cache/webpack/client-development.pack.gz failed: TypeError: Cannot read properties of undefined (reading 'hasStartTime')
+ ✓ Compiled / in 6.5s (535 modules)
+ GET / 200 in 7379ms
+ ✓ Compiled in 893ms (258 modules)
+ ○ Compiling /api/generate-message ...
+ ✓ Compiled /api/generate-message in 4.2s (297 modules)
+Error generating message: SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>)
+    at parseJSONFromBytes (node:internal/deps/undici/undici:5852:19)
+    at successSteps (node:internal/deps/undici/undici:5833:27)
+    at consumeBody (node:internal/deps/undici/undici:5839:9)
+    at NextRequest.json (node:internal/deps/undici/undici:5779:18)
+    at POST (webpack-internal:///(rsc)/./src/app/api/generate-message/route.ts:14:47)
+    at /app/ai-personalisation/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:53452
+    at /app/ai-personalisation/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/app/ai-personalisation/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
+    at ContextAPI.with (/app/ai-personalisation/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
+    at NoopTracer.startActiveSpan (/app/ai-personalisation/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18093)
+    at ProxyTracer.startActiveSpan (/app/ai-personalisation/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:18854)
+    at /app/ai-personalisation/node_modules/next/dist/server/lib/trace/tracer.js:122:103
+    at NoopContextManager.with (/app/ai-personalisation/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:7062)
+    at ContextAPI.with (/app/ai-personalisation/node_modules/next/dist/compiled/@opentelemetry/api/index.js:1:518)
+    at NextTracerImpl.trace (/app/ai-personalisation/node_modules/next/dist/server/lib/trace/tracer.js:122:28)
+    at /app/ai-personalisation/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:46261
+    at AsyncLocalStorage.run (node:internal/async_local_storage/async_hooks:91:14)
+    at Object.wrap (/app/ai-personalisation/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:39188)
+    at /app/ai-personalisation/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:45368
+    at AsyncLocalStorage.run (node:internal/async_local_storage/async_hooks:91:14)
+    at Object.wrap (/app/ai-personalisation/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:37583)
+    at /app/ai-personalisation/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:45330
+    at AsyncLocalStorage.run (node:internal/async_local_storage/async_hooks:91:14)
+    at e_.execute (/app/ai-personalisation/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:44777)
+    at e_.handle (/app/ai-personalisation/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:54711)
+    at doRender (/app/ai-personalisation/node_modules/next/dist/server/base-server.js:1377:60)
+    at cacheEntry.responseCache.get.routeKind (/app/ai-personalisation/node_modules/next/dist/server/base-server.js:1599:34)
+    at ResponseCache.get (/app/ai-personalisation/node_modules/next/dist/server/response-cache/index.js:49:26)
+    at DevServer.renderToResponseWithComponentsImpl (/app/ai-personalisation/node_modules/next/dist/server/base-server.js:1507:53)
+    at /app/ai-personalisation/node_modules/next/dist/server/base-server.js:1002:121
+    at NextTracerImpl.trace (/app/ai-personalisation/node_modules/next/dist/server/lib/trace/tracer.js:105:20)
+    at DevServer.renderToResponseWithComponents (/app/ai-personalisation/node_modules/next/dist/server/base-server.js:1002:41)
+    at DevServer.renderPageComponent (/app/ai-personalisation/node_modules/next/dist/server/base-server.js:1924:35)
+    at async DevServer.renderToResponseImpl (/app/ai-personalisation/node_modules/next/dist/server/base-server.js:1962:32)
+    at async DevServer.pipeImpl (/app/ai-personalisation/node_modules/next/dist/server/base-server.js:920:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/app/ai-personalisation/node_modules/next/dist/server/next-server.js:272:17)
+    at async DevServer.handleRequestImpl (/app/ai-personalisation/node_modules/next/dist/server/base-server.js:816:17)
+    at async /app/ai-personalisation/node_modules/next/dist/server/dev/next-dev-server.js:339:20
+    at async Span.traceAsyncFn (/app/ai-personalisation/node_modules/next/dist/trace/trace.js:154:20)
+    at async DevServer.handleRequest (/app/ai-personalisation/node_modules/next/dist/server/dev/next-dev-server.js:336:24)
+    at async invokeRender (/app/ai-personalisation/node_modules/next/dist/server/lib/router-server.js:174:21)
+    at async handleRequest (/app/ai-personalisation/node_modules/next/dist/server/lib/router-server.js:353:24)
+    at async requestHandlerImpl (/app/ai-personalisation/node_modules/next/dist/server/lib/router-server.js:377:13)
+    at async Server.requestListener (/app/ai-personalisation/node_modules/next/dist/server/lib/start-server.js:141:13)
+ GET / 200 in 175ms
+GEMINI_API_KEY is not set. Returning a mock message.
+ POST /api/generate-message 200 in 13ms
+ GET / 200 in 28ms
+GEMINI_API_KEY is not set. Returning a mock message.
+ POST /api/generate-message 200 in 14ms
+ GET / 200 in 28ms
+GEMINI_API_KEY is not set. Returning a mock message.
+ POST /api/generate-message 200 in 37ms
+ GET / 200 in 30ms
+GEMINI_API_KEY is not set. Returning a mock message.
+ POST /api/generate-message 200 in 14ms
+ GET / 200 in 36ms
+GEMINI_API_KEY is not set. Returning a mock message.
+ POST /api/generate-message 200 in 11ms
+[?25h

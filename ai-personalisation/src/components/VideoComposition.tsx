@@ -1,17 +1,16 @@
 import React from 'react';
 import { AbsoluteFill, Sequence, interpolate, spring, useCurrentFrame, useVideoConfig, Audio } from 'remotion';
-import { MockDashboard, MockCodeEditor, MockChatUI, MockInputCTA } from './MockUI';
+import { GenerativeUI, UIBlock } from './GenerativeUI';
 
 export interface VideoCompositionProps {
   name: string;
   hook: string;
   valueProp: string;
   cta: string;
-  uiType?: 'dashboard' | 'code' | 'chat';
   themeColor?: string;
   fontStyle?: 'sans' | 'serif' | 'mono';
   animationStyle?: 'zoom' | 'slide' | 'fade';
-  uiText?: string[];
+  uiBlocks?: UIBlock[];
 }
 
 export const VideoComposition: React.FC<VideoCompositionProps> = ({
@@ -19,11 +18,10 @@ export const VideoComposition: React.FC<VideoCompositionProps> = ({
   hook,
   valueProp,
   cta,
-  uiType = 'dashboard',
   themeColor = '#4f46e5',
   fontStyle = 'sans',
   animationStyle = 'zoom',
-  uiText = ["System Status: Online", "Resolving issues...", "Success!"]
+  uiBlocks = []
 }) => {
   const { fps } = useVideoConfig();
 
@@ -41,17 +39,17 @@ export const VideoComposition: React.FC<VideoCompositionProps> = ({
     <AbsoluteFill className={`bg-black ${fontClass} overflow-hidden`}>
       <DynamicBackground themeColor={themeColor} />
 
-      <Sequence from={0} durationInFrames={180}>
+      <Sequence from={0} durationInFrames={120}>
         {hasAudio && <Audio src={hookAudioSrc} />}
         <SceneText text={hook} fps={fps} animationStyle={animationStyle} />
       </Sequence>
 
-      <Sequence from={180} durationInFrames={180}>
+      <Sequence from={120} durationInFrames={180}>
         {hasAudio && <Audio src={valuePropAudioSrc} />}
-        <SceneText text={valueProp} fps={fps} uiType={uiType} animationStyle={animationStyle} uiText={uiText} />
+        <SceneText text={valueProp} fps={fps} uiBlocks={uiBlocks} themeColor={themeColor} animationStyle={animationStyle} />
       </Sequence>
 
-      <Sequence from={360} durationInFrames={180}>
+      <Sequence from={300} durationInFrames={120}>
         {hasAudio && <Audio src={ctaAudioSrc} />}
         <SceneText text={cta} fps={fps} isCTA animationStyle={animationStyle} />
       </Sequence>
@@ -81,23 +79,14 @@ const SceneText: React.FC<{
   text: string,
   fps: number,
   isCTA?: boolean,
-  uiType?: 'dashboard' | 'code' | 'chat',
+  uiBlocks?: UIBlock[],
+  themeColor?: string,
   animationStyle?: 'zoom' | 'slide' | 'fade',
-  uiText?: string[]
-}> = ({ text, fps, isCTA, uiType, animationStyle = 'zoom', uiText }) => {
+}> = ({ text, fps, isCTA, uiBlocks, themeColor = '#4f46e5', animationStyle = 'zoom' }) => {
   const frame = useCurrentFrame();
   const words = text.split(' ');
 
-  const layoutTranslateY = (isCTA || uiType) ? -120 : 0;
-
-  const renderUI = () => {
-    switch (uiType) {
-      case 'dashboard': return <MockDashboard uiText={uiText} />;
-      case 'code': return <MockCodeEditor uiText={uiText} />;
-      case 'chat': return <MockChatUI uiText={uiText} />;
-      default: return null;
-    }
-  }
+  const layoutTranslateY = (isCTA || (uiBlocks && uiBlocks.length > 0)) ? -120 : 0;
 
   return (
     <AbsoluteFill className="flex flex-col items-center justify-center p-16">
@@ -107,7 +96,7 @@ const SceneText: React.FC<{
         style={{ transform: `translateY(${layoutTranslateY}px)` }}
       >
         {words.map((word, i) => {
-          const delay = i * (animationStyle === 'fade' ? 15 : 10);
+          const delay = i * (animationStyle === 'fade' ? 8 : 5);
           const relativeFrame = Math.max(0, frame - delay);
 
           let wordTransform = '';
@@ -117,9 +106,9 @@ const SceneText: React.FC<{
             const wordScale = spring({
               fps,
               frame: relativeFrame,
-              config: { damping: 16, stiffness: 200, mass: 0.5 },
+              config: { damping: 14, stiffness: 300, mass: 0.4 },
             });
-            wordOpacity = interpolate(relativeFrame, [0, 8], [0, 1], {
+            wordOpacity = interpolate(relativeFrame, [0, 5], [0, 1], {
               extrapolateLeft: 'clamp', extrapolateRight: 'clamp'
             });
             wordTransform = `scale(${wordScale})`;
@@ -127,16 +116,16 @@ const SceneText: React.FC<{
             const wordTranslateY = spring({
               fps,
               frame: relativeFrame,
-              config: { damping: 20, stiffness: 150 },
+              config: { damping: 16, stiffness: 250 },
               from: 100,
               to: 0
             });
-            wordOpacity = interpolate(relativeFrame, [0, 10], [0, 1], {
+            wordOpacity = interpolate(relativeFrame, [0, 6], [0, 1], {
               extrapolateLeft: 'clamp', extrapolateRight: 'clamp'
             });
             wordTransform = `translateY(${wordTranslateY}px)`;
           } else if (animationStyle === 'fade') {
-            wordOpacity = interpolate(relativeFrame, [0, 30], [0, 1], {
+            wordOpacity = interpolate(relativeFrame, [0, 15], [0, 1], {
               extrapolateLeft: 'clamp', extrapolateRight: 'clamp'
             });
             wordTransform = `scale(1)`;
@@ -154,15 +143,23 @@ const SceneText: React.FC<{
         })}
       </div>
 
-      {uiType && (
+      {uiBlocks && uiBlocks.length > 0 && (
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 mt-16 z-10">
-          {renderUI()}
+          <GenerativeUI blocks={uiBlocks} themeColor={themeColor} />
         </div>
       )}
 
       {isCTA && (
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 mt-16 z-30">
-          <MockInputCTA />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 mt-16 z-30 flex items-center justify-center">
+           <div className="w-[400px] h-16 bg-neutral-900/80 backdrop-blur-2xl rounded-2xl border border-white/20 shadow-2xl flex items-center px-4 justify-between" style={{boxShadow: `0 20px 40px -10px ${themeColor}60`}}>
+               <div className="flex items-center gap-3 w-full">
+                   <div className="w-5 h-5 rounded-full border border-white/40 opacity-50" />
+                   <div className="text-white/40 text-sm font-medium">Enter your email...</div>
+               </div>
+               <div className="bg-white text-black px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap">
+                   Get Started
+               </div>
+           </div>
         </div>
       )}
 
