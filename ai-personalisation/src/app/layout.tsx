@@ -14,27 +14,34 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Enforcing dark mode by default for that "expensive" look, or a very deep custom dark background
   return (
-    <html lang="en">
-      <body className={`${inter.className} bg-neutral-50 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-50 min-h-screen flex flex-col`}>
+    <html lang="en" className="dark">
+      <body className={`${inter.className} bg-black text-white min-h-screen flex flex-col selection:bg-indigo-500/30 selection:text-indigo-200`}>
+        {/* Ambient Background Glows */}
+        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-600/20 rounded-full blur-[120px]" />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-600/20 rounded-full blur-[120px]" />
+        </div>
+
         {/* Header / Navbar */}
-        <header className="sticky top-0 z-50 w-full border-b border-neutral-200 dark:border-neutral-800 bg-white/80 dark:bg-neutral-950/80 backdrop-blur">
+        <header className="fixed top-0 z-50 w-full border-b border-white/5 bg-black/40 backdrop-blur-md">
           <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/></svg>
+            <div className="flex items-center gap-3 relative z-10">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-[0_0_15px_rgba(99,102,241,0.5)]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/></svg>
               </div>
-              <span className="font-bold text-xl tracking-tight">Vivid Ads</span>
+              <span className="font-bold text-xl tracking-tight text-white">Vivid Ads</span>
             </div>
-            <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-neutral-600 dark:text-neutral-400">
-              <a href="#" className="hover:text-neutral-900 dark:hover:text-white transition-colors">Features</a>
-              <a href="#" className="hover:text-neutral-900 dark:hover:text-white transition-colors">Use Cases</a>
-              <a href="#" className="hover:text-neutral-900 dark:hover:text-white transition-colors">Pricing</a>
-              <a href="#" className="hover:text-neutral-900 dark:hover:text-white transition-colors">API</a>
+            <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-neutral-400 relative z-10">
+              <a href="#" className="hover:text-white transition-colors">Features</a>
+              <a href="#" className="hover:text-white transition-colors">Use Cases</a>
+              <a href="#" className="hover:text-white transition-colors">Pricing</a>
+              <a href="#" className="hover:text-white transition-colors">API</a>
             </nav>
-            <div className="flex items-center gap-4">
-              <a href="#" className="text-sm font-medium hidden sm:block hover:text-neutral-600 dark:hover:text-neutral-300">Sign in</a>
-              <a href="#" className="bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 text-sm font-semibold px-4 py-2 rounded-full hover:bg-neutral-800 dark:hover:bg-neutral-100 transition-colors">
+            <div className="flex items-center gap-5 relative z-10">
+              <a href="#" className="text-sm font-medium hidden sm:block text-neutral-400 hover:text-white transition-colors">Sign in</a>
+              <a href="#" className="bg-white text-black text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-neutral-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_25px_rgba(255,255,255,0.25)]">
                 Get Started
               </a>
             </div>
@@ -42,58 +49,58 @@ export default function RootLayout({
         </header>
 
         {/* Main Content */}
-        <div className="flex-1">
+        <div className="flex-1 relative z-10 flex flex-col pt-16">
           {children}
         </div>
 
         {/* Footer */}
-        <footer className="border-t border-neutral-200 dark:border-neutral-800 py-12 bg-white dark:bg-neutral-900 mt-auto">
-          <div className="container mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-6 h-6 bg-indigo-600 rounded-md flex items-center justify-center">
+        <footer className="border-t border-white/10 py-16 bg-black relative z-10 mt-auto">
+          <div className="container mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-12">
+            <div className="col-span-2 md:col-span-1">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/></svg>
                 </div>
-                <span className="font-bold text-lg tracking-tight">Vivid Ads</span>
+                <span className="font-bold text-lg tracking-tight text-white">Vivid Ads</span>
               </div>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4">
+              <p className="text-sm text-neutral-400 leading-relaxed max-w-xs">
                 Automated 7-second hyper-personalised SaaS video ads at scale.
               </p>
             </div>
             <div>
-              <h3 className="font-semibold mb-3">Product</h3>
-              <ul className="space-y-2 text-sm text-neutral-500 dark:text-neutral-400">
-                <li><a href="#" className="hover:text-indigo-600 dark:hover:text-indigo-400">Features</a></li>
-                <li><a href="#" className="hover:text-indigo-600 dark:hover:text-indigo-400">Integrations</a></li>
-                <li><a href="#" className="hover:text-indigo-600 dark:hover:text-indigo-400">Pricing</a></li>
-                <li><a href="#" className="hover:text-indigo-600 dark:hover:text-indigo-400">Changelog</a></li>
+              <h3 className="font-semibold text-white mb-4">Product</h3>
+              <ul className="space-y-3 text-sm text-neutral-400">
+                <li><a href="#" className="hover:text-white transition-colors">Features</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Integrations</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Pricing</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Changelog</a></li>
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold mb-3">Resources</h3>
-              <ul className="space-y-2 text-sm text-neutral-500 dark:text-neutral-400">
-                <li><a href="#" className="hover:text-indigo-600 dark:hover:text-indigo-400">Documentation</a></li>
-                <li><a href="#" className="hover:text-indigo-600 dark:hover:text-indigo-400">API Reference</a></li>
-                <li><a href="#" className="hover:text-indigo-600 dark:hover:text-indigo-400">Blog</a></li>
-                <li><a href="#" className="hover:text-indigo-600 dark:hover:text-indigo-400">Community</a></li>
+              <h3 className="font-semibold text-white mb-4">Resources</h3>
+              <ul className="space-y-3 text-sm text-neutral-400">
+                <li><a href="#" className="hover:text-white transition-colors">Documentation</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">API Reference</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Community</a></li>
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold mb-3">Company</h3>
-              <ul className="space-y-2 text-sm text-neutral-500 dark:text-neutral-400">
-                <li><a href="#" className="hover:text-indigo-600 dark:hover:text-indigo-400">About Us</a></li>
-                <li><a href="#" className="hover:text-indigo-600 dark:hover:text-indigo-400">Careers</a></li>
-                <li><a href="#" className="hover:text-indigo-600 dark:hover:text-indigo-400">Contact</a></li>
-                <li><a href="#" className="hover:text-indigo-600 dark:hover:text-indigo-400">Privacy Policy</a></li>
+              <h3 className="font-semibold text-white mb-4">Company</h3>
+              <ul className="space-y-3 text-sm text-neutral-400">
+                <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
               </ul>
             </div>
           </div>
-          <div className="container mx-auto px-4 mt-12 pt-8 border-t border-neutral-200 dark:border-neutral-800 flex flex-col md:flex-row items-center justify-between text-sm text-neutral-500 dark:text-neutral-400">
+          <div className="container mx-auto px-4 mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between text-sm text-neutral-500">
             <p>© {new Date().getFullYear()} Vivid Ads Inc. All rights reserved.</p>
-            <div className="flex gap-4 mt-4 md:mt-0">
-              <a href="#" className="hover:text-neutral-900 dark:hover:text-white">Twitter</a>
-              <a href="#" className="hover:text-neutral-900 dark:hover:text-white">GitHub</a>
-              <a href="#" className="hover:text-neutral-900 dark:hover:text-white">LinkedIn</a>
+            <div className="flex gap-6 mt-6 md:mt-0">
+              <a href="#" className="hover:text-white transition-colors">Twitter</a>
+              <a href="#" className="hover:text-white transition-colors">GitHub</a>
+              <a href="#" className="hover:text-white transition-colors">LinkedIn</a>
             </div>
           </div>
         </footer>

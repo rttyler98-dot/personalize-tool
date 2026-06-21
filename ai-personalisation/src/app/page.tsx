@@ -73,44 +73,44 @@ export default function Home() {
   };
 
   return (
-    <main className="flex flex-col items-center pb-24 font-sans">
+    <main className="flex flex-col items-center pb-32 font-sans w-full">
 
       {/* Hero Section */}
-      <section className="w-full pt-20 pb-16 px-4 text-center">
-        <div className="max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-sm font-medium mb-6">
-            <Sparkles className="w-4 h-4" />
+      <section className="w-full pt-28 pb-20 px-4 text-center relative">
+        <div className="max-w-4xl mx-auto relative z-10">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-neutral-300 text-sm font-medium mb-8 backdrop-blur-md shadow-2xl">
+            <Sparkles className="w-4 h-4 text-indigo-400" />
             <span>Now with Gemini 1.5 Flash</span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-neutral-900 dark:text-white mb-6 leading-tight">
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter text-white mb-6 leading-[1.1]">
             Stop losing leads.<br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-600">
-              Start personalising videos.
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">
+              Start personalising.
             </span>
           </h1>
-          <p className="text-xl text-neutral-600 dark:text-neutral-400 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl md:text-2xl text-neutral-400 mb-10 max-w-2xl mx-auto font-light leading-relaxed">
             Generate 7-second, highly engaging SaaS video ads tailored instantly to your prospect&apos;s specific pain points and goals.
           </p>
         </div>
       </section>
 
       {/* Main App Section */}
-      <section className="w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+      <section className="w-full max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
           {/* Left Column: Form (5 columns wide) */}
-          <div className="lg:col-span-5 bg-white dark:bg-neutral-900 rounded-3xl p-6 sm:p-8 shadow-xl border border-neutral-200 dark:border-neutral-800">
-            <div className="mb-6">
-              <h2 className="text-2xl font-bold text-neutral-900 dark:text-white mb-2">
+          <div className="lg:col-span-5 bg-neutral-900/50 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.5)]">
+            <div className="mb-8">
+              <h2 className="text-2xl font-semibold text-white mb-2 tracking-tight">
                 Generate Your Ad
               </h2>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400">
-                Describe your target user and let AI build a bespoke video template.
+              <p className="text-sm text-neutral-400 leading-relaxed">
+                Describe your target user and let AI build a bespoke video template in milliseconds.
               </p>
             </div>
 
-            <div className="mb-6">
-              <div className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-3">
+            <div className="mb-8">
+              <div className="text-xs font-semibold text-neutral-500 uppercase tracking-widest mb-3">
                 Try a preset
               </div>
               <div className="flex gap-2 flex-wrap">
@@ -119,7 +119,7 @@ export default function Home() {
                     key={idx}
                     type="button"
                     onClick={() => handlePresetClick(preset)}
-                    className="px-3 py-1.5 text-xs font-medium bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 rounded-full transition-colors border border-neutral-200 dark:border-neutral-700"
+                    className="px-4 py-2 text-xs font-medium bg-white/5 hover:bg-white/10 text-neutral-300 rounded-full transition-all border border-white/10 hover:border-white/20"
                   >
                     {preset.name}
                   </button>
@@ -127,9 +127,9 @@ export default function Home() {
               </div>
             </div>
 
-            <form onSubmit={handleGenerate} className="space-y-5">
+            <form onSubmit={handleGenerate} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+                <label htmlFor="name" className="block text-sm font-medium text-neutral-300 mb-2">
                   Target Company / Prospect Name
                 </label>
                 <input
@@ -138,12 +138,12 @@ export default function Home() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. Acme Corp or Alice"
-                  className="w-full px-4 py-3 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors shadow-sm"
+                  className="w-full px-5 py-4 rounded-xl border border-white/10 bg-black/50 text-white placeholder-neutral-600 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all shadow-inner outline-none"
                 />
               </div>
 
               <div>
-                <label htmlFor="topic" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+                <label htmlFor="topic" className="block text-sm font-medium text-neutral-300 mb-2">
                   Their Core Problem or Goal
                 </label>
                 <textarea
@@ -152,12 +152,12 @@ export default function Home() {
                   onChange={(e) => setTopic(e.target.value)}
                   placeholder="e.g. They struggle with slow deployment times and need a faster CI/CD pipeline."
                   rows={4}
-                  className="w-full px-4 py-3 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors resize-none shadow-sm"
+                  className="w-full px-5 py-4 rounded-xl border border-white/10 bg-black/50 text-white placeholder-neutral-600 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all resize-none shadow-inner outline-none"
                 />
               </div>
 
               {error && (
-                <div className="p-3 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg text-sm font-medium flex items-start">
+                <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl text-sm font-medium flex items-start">
                   <span className="mr-2">⚠️</span> {error}
                 </div>
               )}
@@ -165,40 +165,45 @@ export default function Home() {
               <button
                 type="submit"
                 disabled={isGenerating}
-                className="w-full flex items-center justify-center gap-2 bg-neutral-900 hover:bg-neutral-800 dark:bg-indigo-600 dark:hover:bg-indigo-700 text-white font-semibold py-3.5 px-8 rounded-xl transition-all hover:shadow-md disabled:opacity-70 disabled:cursor-not-allowed mt-4"
+                className="w-full relative group overflow-hidden rounded-xl mt-4"
               >
-                {isGenerating ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    Analyzing & Rendering...
-                  </>
-                ) : (
-                  <>
-                    <Wand2 className="w-5 h-5" />
-                    Generate Video
-                  </>
-                )}
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-80 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative flex items-center justify-center gap-2 bg-black/20 text-white font-semibold py-4 px-8 transition-all disabled:opacity-70 disabled:cursor-not-allowed backdrop-blur-sm">
+                  {isGenerating ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Analyzing & Rendering...
+                    </>
+                  ) : (
+                    <>
+                      <Wand2 className="w-5 h-5" />
+                      Generate Video
+                    </>
+                  )}
+                </div>
               </button>
             </form>
           </div>
 
           {/* Right Column: Video Preview (7 columns wide) */}
-          <div id="video-preview" className="lg:col-span-7 flex flex-col items-center xl:sticky xl:top-24">
+          <div id="video-preview" className="lg:col-span-7 flex flex-col items-center xl:sticky xl:top-28">
 
             {/* Browser mock wrapper */}
-            <div className="w-full bg-white dark:bg-neutral-900 rounded-2xl overflow-hidden shadow-2xl border border-neutral-200 dark:border-neutral-800">
-              <div className="bg-neutral-100 dark:bg-neutral-950 px-4 py-3 border-b border-neutral-200 dark:border-neutral-800 flex items-center gap-2">
-                <div className="flex gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-red-400"></div>
-                  <div className="w-3 h-3 rounded-full bg-amber-400"></div>
-                  <div className="w-3 h-3 rounded-full bg-green-400"></div>
+            <div className="w-full bg-neutral-900/80 backdrop-blur-xl rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.6)] border border-white/10 relative">
+              <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none"></div>
+
+              <div className="bg-black/40 px-4 py-3 border-b border-white/5 flex items-center gap-3">
+                <div className="flex gap-2">
+                  <div className="w-3 h-3 rounded-full bg-white/20"></div>
+                  <div className="w-3 h-3 rounded-full bg-white/20"></div>
+                  <div className="w-3 h-3 rounded-full bg-white/20"></div>
                 </div>
-                <div className="ml-4 flex-1 bg-white dark:bg-neutral-900 rounded-md py-1 px-3 text-xs text-neutral-400 text-center font-mono truncate">
+                <div className="ml-4 flex-1 bg-black/40 border border-white/5 rounded-md py-1.5 px-4 text-xs text-neutral-500 text-center font-mono truncate shadow-inner">
                   vivid-ads.app/preview/{videoData?.name ? encodeURIComponent(videoData.name.toLowerCase().replace(/\s+/g, '-')) : 'draft'}
                 </div>
               </div>
 
-              <div className="w-full aspect-video bg-neutral-900 relative flex items-center justify-center group overflow-hidden">
+              <div className="w-full aspect-video bg-black relative flex items-center justify-center group overflow-hidden">
                 {videoData ? (
                   <Player
                     component={VideoComposition}
@@ -216,12 +221,13 @@ export default function Home() {
                     loop={true}
                   />
                 ) : (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center text-neutral-500 bg-neutral-100 dark:bg-neutral-900">
-                    <div className="w-20 h-20 rounded-full bg-white dark:bg-neutral-800 flex items-center justify-center shadow-lg mb-6 border border-neutral-200 dark:border-neutral-700">
-                      <Play className="w-8 h-8 text-neutral-300 dark:text-neutral-600 ml-1" />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-neutral-500 bg-neutral-950">
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-900/20 via-black to-black pointer-events-none"></div>
+                    <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center shadow-lg mb-6 border border-white/10 backdrop-blur-sm relative z-10">
+                      <Play className="w-8 h-8 text-neutral-500 ml-1" />
                     </div>
-                    <p className="text-lg font-medium text-neutral-600 dark:text-neutral-400">Ready to generate</p>
-                    <p className="text-sm mt-1 text-neutral-400">Your resulting video will appear here</p>
+                    <p className="text-lg font-medium text-neutral-400 relative z-10">Ready to generate</p>
+                    <p className="text-sm mt-2 text-neutral-600 relative z-10">Your resulting video will appear here</p>
                   </div>
                 )}
               </div>
@@ -229,17 +235,17 @@ export default function Home() {
 
             {videoData && (
               <div className="w-full mt-6 grid grid-cols-3 gap-4">
-                <div className="bg-white dark:bg-neutral-900 p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 shadow-sm text-center">
-                  <div className="text-xs text-neutral-500 mb-1 font-semibold uppercase">Duration</div>
-                  <div className="font-mono font-medium text-neutral-900 dark:text-white">00:07.00</div>
+                <div className="bg-neutral-900/50 backdrop-blur-sm p-4 rounded-xl border border-white/5 shadow-lg text-center">
+                  <div className="text-xs text-neutral-500 mb-1.5 font-semibold uppercase tracking-wider">Duration</div>
+                  <div className="font-mono font-medium text-white">00:07.00</div>
                 </div>
-                <div className="bg-white dark:bg-neutral-900 p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 shadow-sm text-center">
-                  <div className="text-xs text-neutral-500 mb-1 font-semibold uppercase">Format</div>
-                  <div className="font-mono font-medium text-neutral-900 dark:text-white">1080p60</div>
+                <div className="bg-neutral-900/50 backdrop-blur-sm p-4 rounded-xl border border-white/5 shadow-lg text-center">
+                  <div className="text-xs text-neutral-500 mb-1.5 font-semibold uppercase tracking-wider">Format</div>
+                  <div className="font-mono font-medium text-white">1080p60</div>
                 </div>
-                <div className="bg-white dark:bg-neutral-900 p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 shadow-sm text-center">
-                  <div className="text-xs text-neutral-500 mb-1 font-semibold uppercase">Blocks</div>
-                  <div className="font-mono font-medium text-neutral-900 dark:text-white">{videoData.uiBlocks?.length || 0}</div>
+                <div className="bg-neutral-900/50 backdrop-blur-sm p-4 rounded-xl border border-white/5 shadow-lg text-center">
+                  <div className="text-xs text-neutral-500 mb-1.5 font-semibold uppercase tracking-wider">Blocks</div>
+                  <div className="font-mono font-medium text-white">{videoData.uiBlocks?.length || 0}</div>
                 </div>
               </div>
             )}
@@ -248,32 +254,32 @@ export default function Home() {
       </section>
 
       {/* Feature Highlight Section */}
-      <section className="w-full max-w-5xl mx-auto mt-32 px-4">
+      <section className="w-full max-w-6xl mx-auto mt-40 px-4 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold mb-4">Why use Vivid Ads?</h2>
-          <p className="text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">Our unique architecture generates not just text, but fully composed UI mockups on the fly.</p>
+          <h2 className="text-4xl font-bold mb-4 tracking-tight text-white">Why use Vivid Ads?</h2>
+          <p className="text-neutral-400 max-w-2xl mx-auto text-lg">Our unique architecture generates not just text, but fully composed UI mockups on the fly.</p>
         </div>
         <div className="grid md:grid-cols-3 gap-8">
-          <div className="bg-white dark:bg-neutral-900 p-6 rounded-2xl border border-neutral-200 dark:border-neutral-800">
-            <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-4">
-              <Zap className="w-6 h-6" />
+          <div className="bg-neutral-900/40 backdrop-blur-sm p-8 rounded-3xl border border-white/5 hover:bg-neutral-900/60 transition-colors">
+            <div className="w-14 h-14 bg-indigo-500/10 rounded-2xl flex items-center justify-center text-indigo-400 mb-6 border border-indigo-500/20">
+              <Zap className="w-7 h-7" />
             </div>
-            <h3 className="text-xl font-bold mb-2">Lightning Fast</h3>
-            <p className="text-neutral-600 dark:text-neutral-400 text-sm">Powered by Gemini 1.5 Flash, the entire script and UI composition takes milliseconds to generate.</p>
+            <h3 className="text-xl font-bold mb-3 text-white">Lightning Fast</h3>
+            <p className="text-neutral-400 text-sm leading-relaxed">Powered by Gemini 1.5 Flash, the entire script and UI composition takes milliseconds to generate.</p>
           </div>
-          <div className="bg-white dark:bg-neutral-900 p-6 rounded-2xl border border-neutral-200 dark:border-neutral-800">
-            <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center text-purple-600 dark:text-purple-400 mb-4">
-              <Layout className="w-6 h-6" />
+          <div className="bg-neutral-900/40 backdrop-blur-sm p-8 rounded-3xl border border-white/5 hover:bg-neutral-900/60 transition-colors">
+            <div className="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center text-purple-400 mb-6 border border-purple-500/20">
+              <Layout className="w-7 h-7" />
             </div>
-            <h3 className="text-xl font-bold mb-2">Generative UI</h3>
-            <p className="text-neutral-600 dark:text-neutral-400 text-sm">Instead of rigid templates, the AI builds custom React layouts (dashboards, chats, heroes) matching the user&apos;s intent.</p>
+            <h3 className="text-xl font-bold mb-3 text-white">Generative UI</h3>
+            <p className="text-neutral-400 text-sm leading-relaxed">Instead of rigid templates, the AI builds custom React layouts (dashboards, chats, heroes) matching the user&apos;s intent.</p>
           </div>
-          <div className="bg-white dark:bg-neutral-900 p-6 rounded-2xl border border-neutral-200 dark:border-neutral-800">
-            <div className="w-12 h-12 bg-pink-100 dark:bg-pink-900/30 rounded-xl flex items-center justify-center text-pink-600 dark:text-pink-400 mb-4">
-              <Sparkles className="w-6 h-6" />
+          <div className="bg-neutral-900/40 backdrop-blur-sm p-8 rounded-3xl border border-white/5 hover:bg-neutral-900/60 transition-colors">
+            <div className="w-14 h-14 bg-pink-500/10 rounded-2xl flex items-center justify-center text-pink-400 mb-6 border border-pink-500/20">
+              <Sparkles className="w-7 h-7" />
             </div>
-            <h3 className="text-xl font-bold mb-2">Remotion Render</h3>
-            <p className="text-neutral-600 dark:text-neutral-400 text-sm">Preview in real-time in the browser, then deploy to a serverless lambda architecture for mass MP4 rendering.</p>
+            <h3 className="text-xl font-bold mb-3 text-white">Remotion Render</h3>
+            <p className="text-neutral-400 text-sm leading-relaxed">Preview in real-time in the browser, then deploy to a serverless lambda architecture for mass MP4 rendering.</p>
           </div>
         </div>
       </section>
