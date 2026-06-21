@@ -1,0 +1,21 @@
+
+> ai-personalisation@0.1.0 dev
+> next dev
+
+  ▲ Next.js 14.2.3
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+ ✓ Ready in 2.3s
+ ○ Compiling / ...
+ ✓ Compiled / in 2.3s (534 modules)
+ GET / 200 in 2832ms
+ ✓ Compiled in 413ms (262 modules)
+ GET / 200 in 51ms
+ ✓ Compiled /api/generate-message in 430ms (301 modules)
+GEMINI_API_KEY is not set. Returning a mock message.
+ POST /api/generate-message 200 in 544ms
+GEMINI_API_KEY is not set. Returning a mock message.
+ POST /api/generate-message 200 in 9ms
+GEMINI_API_KEY is not set. Returning a mock message.
+ POST /api/generate-message 200 in 9ms

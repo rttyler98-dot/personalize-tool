@@ -52,7 +52,7 @@ You must output ONLY a valid JSON object (no markdown formatting, no code blocks
 4. "themeColor": A hex color code (e.g. "#ff0000") that fits the vibe of the brand and topic.
 5. "fontStyle": Select a font style from exactly these options based on the vibe: "sans", "serif", or "mono".
 6. "animationStyle": Select how the text should animate in from exactly these options: "zoom", "slide", or "fade".
-7. "uiBlocks": An array of EXACTLY 3 objects representing the UI layout. Each object MUST have a "type" string (choose exactly from: "header", "stat", "chart", "code_line", "chat_message", "task_item") and a "content" string. If the type is "stat", also include a "label" string. Build a combination that best represents the product (e.g., a dashboard might have a header, a stat, and a chart. A dev tool might have a header and two code_lines. A task manager might have a header and two task_items).`;
+7. "uiBlocks": An array of EXACTLY 3 objects representing the UI layout. Each object MUST have a "type" string (choose exactly from: "header", "stat", "chart", "code_line", "chat_message", "task_item", "code_editor", "iphone_frame", "social_post") and a "content" string. For "stat", include a "label" string. For "code_editor", the "content" should be short code. For "iphone_frame", the "content" should be the name of an app. For "social_post", the "content" should be a tweet or post text, and you can include a "label" string for the username. Build a combination that best represents the product (e.g., a dev tool might have a header and a code_editor. A social tool might have a header and a social_post).`;
 
     const result = await model.generateContent(prompt);
     let content = result.response.text().trim();

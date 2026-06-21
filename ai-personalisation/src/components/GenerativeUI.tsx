@@ -2,7 +2,7 @@ import React from 'react';
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
 
 export interface UIBlock {
-  type: 'header' | 'stat' | 'chart' | 'code_line' | 'chat_message' | 'task_item';
+  type: 'header' | 'stat' | 'chart' | 'code_line' | 'chat_message' | 'task_item' | 'code_editor' | 'iphone_frame' | 'social_post';
   content: string;
   label?: string;
 }
@@ -99,6 +99,57 @@ const GenerativeBlock: React.FC<{ block: UIBlock, index: number, themeColor: str
                 <div className="w-2 h-2 rounded-sm" style={{ backgroundColor: themeColor }} />
             </div>
             <div className="text-white text-sm">{block.content}</div>
+        </div>
+      );
+    case 'code_editor':
+      return (
+        <div style={style} className="bg-[#1e1e1e] rounded-xl overflow-hidden border border-white/10 shadow-2xl mt-2 w-full">
+          <div className="bg-[#2d2d2d] px-4 py-2 flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
+            <div className="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
+            <div className="w-3 h-3 rounded-full bg-[#27c93f]"></div>
+            <div className="ml-2 text-xs text-gray-400 font-mono">script.js</div>
+          </div>
+          <div className="p-4 font-mono text-sm leading-relaxed whitespace-pre-wrap text-[#d4d4d4]">
+            <span className="text-[#569cd6]">const</span> <span className="text-[#4fc1ff]">solution</span> <span className="text-[#d4d4d4]">=</span> <span className="text-[#c586c0]">async</span> () <span className="text-[#569cd6]">{"=>"}</span> {"{\n"}
+            {"  "}<span className="text-[#569cd6]">return</span> <span className="text-[#ce9178]">&quot;{block.content}&quot;</span>{";\n"}
+            {"}"}
+          </div>
+        </div>
+      );
+    case 'iphone_frame':
+      return (
+        <div style={style} className="flex justify-center mt-2">
+            <div className="w-[280px] h-[500px] border-[8px] border-neutral-800 rounded-[40px] bg-black relative overflow-hidden shadow-2xl flex flex-col items-center justify-center">
+                <div className="absolute top-0 w-[120px] h-[25px] bg-neutral-800 rounded-b-2xl"></div>
+                <div className="w-16 h-16 rounded-2xl mb-4 shadow-lg flex items-center justify-center text-3xl" style={{ backgroundColor: themeColor }}>
+                    ✨
+                </div>
+                <div className="text-white font-semibold text-lg">{block.content}</div>
+                <div className="text-neutral-500 text-sm mt-1">Ready to install</div>
+            </div>
+        </div>
+      );
+    case 'social_post':
+      return (
+        <div style={style} className="bg-neutral-900 rounded-2xl p-5 border border-white/10 flex gap-4 mt-2">
+            <div className="w-12 h-12 rounded-full flex-shrink-0 flex items-center justify-center text-xl text-white font-bold" style={{ backgroundColor: themeColor }}>
+                {block.label ? block.label.charAt(0).toUpperCase() : '@'}
+            </div>
+            <div>
+                <div className="flex items-center gap-2 mb-1">
+                    <span className="font-bold text-white">{block.label || 'User'}</span>
+                    <span className="text-neutral-500 text-sm">@{block.label ? block.label.toLowerCase().replace(/\s/g, '') : 'user'}</span>
+                </div>
+                <div className="text-white/90 text-sm leading-relaxed">
+                    {block.content}
+                </div>
+                <div className="flex gap-6 mt-4 text-neutral-500 text-sm">
+                    <span className="flex items-center gap-1">💬 12</span>
+                    <span className="flex items-center gap-1">🔁 4</span>
+                    <span className="flex items-center gap-1 text-pink-500">❤️ 128</span>
+                </div>
+            </div>
         </div>
       );
     default:
