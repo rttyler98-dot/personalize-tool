@@ -151,12 +151,12 @@ export default function Home() {
       <section className="w-full pt-28 pb-20 px-4 text-center relative">
         <div className="max-w-4xl mx-auto relative z-10">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-neutral-300 text-sm font-medium mb-8 backdrop-blur-md shadow-2xl">
-            <Sparkles className="w-4 h-4 text-indigo-400" />
+            <Sparkles className="w-4 h-4 text-blue-400" />
             <span>Now with Gemini 1.5 Flash</span>
           </div>
           <h1 className="text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter text-white mb-6 leading-[1.1]">
             Stop losing leads.<br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-emerald-400">
               Start personalising.
             </span>
           </h1>
@@ -192,7 +192,7 @@ export default function Home() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. Acme Corp or Alice"
-                  className="w-full px-5 py-4 rounded-xl border border-white/10 bg-black/50 text-white placeholder-neutral-600 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all shadow-inner outline-none"
+                  className="w-full px-5 py-4 rounded-xl border border-white/10 bg-black/50 text-white placeholder-neutral-600 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all shadow-inner outline-none"
                 />
               </div>
 
@@ -206,7 +206,7 @@ export default function Home() {
                   onChange={(e) => setTopic(e.target.value)}
                   placeholder="e.g. They struggle with slow deployment times and need a faster CI/CD pipeline."
                   rows={3}
-                  className="w-full px-5 py-4 rounded-xl border border-white/10 bg-black/50 text-white placeholder-neutral-600 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all resize-none shadow-inner outline-none"
+                  className="w-full px-5 py-4 rounded-xl border border-white/10 bg-black/50 text-white placeholder-neutral-600 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all resize-none shadow-inner outline-none"
                 />
               </div>
 
@@ -221,7 +221,7 @@ export default function Home() {
                 disabled={isGenerating || isBatchProcessing}
                 className="w-full relative group overflow-hidden rounded-xl mt-4"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-80 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-cyan-500 to-emerald-500 opacity-80 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative flex items-center justify-center gap-2 bg-black/20 text-white font-semibold py-4 px-8 transition-all disabled:opacity-70 disabled:cursor-not-allowed backdrop-blur-sm">
                   {isGenerating ? (
                     <>
@@ -240,7 +240,7 @@ export default function Home() {
 
             <div className="mt-8 pt-8 border-t border-white/10">
               <h3 className="text-sm font-medium text-white mb-4 flex items-center gap-2">
-                <List className="w-4 h-4 text-purple-400" />
+                <List className="w-4 h-4 text-cyan-400" />
                 Batch Generation
               </h3>
               <input
@@ -302,7 +302,7 @@ export default function Home() {
                   />
                 ) : (
                   <div className="absolute inset-0 flex flex-col items-center justify-center text-neutral-500 bg-neutral-950">
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-900/20 via-black to-black pointer-events-none"></div>
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-black to-black pointer-events-none"></div>
                     <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center shadow-lg mb-6 border border-white/10 backdrop-blur-sm relative z-10">
                       <Play className="w-8 h-8 text-neutral-500 ml-1" />
                     </div>
@@ -313,7 +313,7 @@ export default function Home() {
             </div>
             {videoData && (
               <div className="w-full mt-6 grid grid-cols-2 gap-4">
-                  <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-xl transition-colors shadow-lg shadow-indigo-900/50">
+                  <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition-colors shadow-lg shadow-blue-900/50">
                       Download MP4
                   </button>
                   <button className="bg-white/10 hover:bg-white/20 text-white font-medium py-3 rounded-xl border border-white/10 transition-colors">
@@ -336,7 +336,7 @@ export default function Home() {
                          <div
                             key={idx}
                             onClick={() => setVideoData(job)}
-                            className={`p-4 rounded-xl border cursor-pointer transition-all ${videoData?.name === job.name ? 'bg-indigo-600/20 border-indigo-500/50' : 'bg-black/40 border-white/5 hover:border-white/20'}`}
+                            className={`p-4 rounded-xl border cursor-pointer transition-all ${videoData?.name === job.name ? 'bg-blue-600/20 border-blue-500/50' : 'bg-black/40 border-white/5 hover:border-white/20'}`}
                          >
                              <div className="font-medium text-white mb-1 flex items-center justify-between">
                                  {job.name}

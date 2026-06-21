@@ -17,18 +17,18 @@ export default function RootLayout({
   // Enforcing dark mode by default for that "expensive" look, or a very deep custom dark background
   return (
     <html lang="en" className="dark">
-      <body className={`${inter.className} bg-black text-white min-h-screen flex flex-col selection:bg-indigo-500/30 selection:text-indigo-200`}>
+      <body className={`${inter.className} bg-black text-white min-h-screen flex flex-col selection:bg-blue-500/30 selection:text-blue-200`}>
         {/* Ambient Background Glows */}
         <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-600/20 rounded-full blur-[120px]" />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-600/20 rounded-full blur-[120px]" />
+          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/20 rounded-full blur-[120px]" />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-cyan-600/20 rounded-full blur-[120px]" />
         </div>
 
         {/* Header / Navbar */}
         <header className="fixed top-0 z-50 w-full border-b border-white/5 bg-black/40 backdrop-blur-md">
           <div className="container mx-auto px-4 h-16 flex items-center justify-between">
             <div className="flex items-center gap-3 relative z-10">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-[0_0_15px_rgba(99,102,241,0.5)]">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.5)]">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/></svg>
               </div>
               <span className="font-bold text-xl tracking-tight text-white">Vivid Ads</span>
@@ -58,7 +58,7 @@ export default function RootLayout({
           <div className="container mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-12">
             <div className="col-span-2 md:col-span-1">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/></svg>
                 </div>
                 <span className="font-bold text-lg tracking-tight text-white">Vivid Ads</span>

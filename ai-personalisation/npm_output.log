@@ -19,3 +19,13 @@ GEMINI_API_KEY is not set. Returning a mock message.
  POST /api/generate-message 200 in 9ms
 GEMINI_API_KEY is not set. Returning a mock message.
  POST /api/generate-message 200 in 9ms
+ ✓ Compiled in 4.9s (534 modules)
+ GET / 200 in 586ms
+ GET / 200 in 43ms
+ ✓ Compiled /api/generate-message in 304ms (301 modules)
+GEMINI_API_KEY is not set. Returning a mock message.
+ POST /api/generate-message 200 in 454ms
+GEMINI_API_KEY is not set. Returning a mock message.
+ POST /api/generate-message 200 in 10ms
+GEMINI_API_KEY is not set. Returning a mock message.
+ POST /api/generate-message 200 in 14ms
