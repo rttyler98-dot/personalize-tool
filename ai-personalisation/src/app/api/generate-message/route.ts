@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { sanitizeInput } from '../../utils/security';
+import { validateThemeColor } from '../../utils/theme';
 
 // Initialize Gemini with the provided API key or environment variable
 const apiKey = process.env.GEMINI_API_KEY;
@@ -7,7 +9,11 @@ const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
 
 export async function POST(request: Request) {
   try {
-    const { name, topic } = await request.json();
+    const rawData = await request.json();
+
+    // Sanitize user inputs
+    const name = sanitizeInput(rawData.name);
+    const topic = sanitizeInput(rawData.topic);
 
     if (!name || !topic) {
       return NextResponse.json(
@@ -22,7 +28,7 @@ export async function POST(request: Request) {
         hook: `Struggling with ${topic.slice(0, 15)}...?`,
         valueProp: `We fix it. Fast.`,
         cta: `Try ${name} now.`,
-        themeColor: '#4f46e5',
+        themeColor: '#3b82f6',
         fontStyle: 'sans',
         animationStyle: 'zoom',
         uiBlocks: [
@@ -58,9 +64,9 @@ You must output ONLY a valid JSON object (no markdown formatting, no code blocks
     let content = result.response.text().trim();
 
     // Remove markdown formatting if present
-    if (content.startsWith('```json')) {
+    if (content.startsWith('\`\`\`json')) {
       content = content.slice(7, -3).trim();
-    } else if (content.startsWith('```')) {
+    } else if (content.startsWith('\`\`\`')) {
       content = content.slice(3, -3).trim();
     }
 
@@ -76,7 +82,7 @@ You must output ONLY a valid JSON object (no markdown formatting, no code blocks
     const validAnimationStyles = ['zoom', 'slide', 'fade'];
     const animationStyle = validAnimationStyles.includes(parsed.animationStyle) ? parsed.animationStyle : 'zoom';
 
-    const themeColor = /^#([0-9A-F]{3}){1,2}$/i.test(parsed.themeColor) ? parsed.themeColor : '#4f46e5';
+    const themeColor = validateThemeColor(parsed.themeColor);
 
     let uiBlocks = parsed.uiBlocks;
     if (!Array.isArray(uiBlocks) || uiBlocks.length !== 3) {
@@ -87,14 +93,21 @@ You must output ONLY a valid JSON object (no markdown formatting, no code blocks
        ];
     }
 
+    // Sanitize generated content as well to prevent any injection if rendered unsafely on frontend
+    const cleanUiBlocks = uiBlocks.map((block: any) => ({
+        ...block,
+        content: sanitizeInput(block.content),
+        label: sanitizeInput(block.label)
+    }));
+
     return NextResponse.json({
-      hook: parsed.hook || `Hey you. Listen.`,
-      valueProp: parsed.valueProp || "We fix it.",
-      cta: parsed.cta || `Try ${name} now.`,
+      hook: sanitizeInput(parsed.hook) || `Hey you. Listen.`,
+      valueProp: sanitizeInput(parsed.valueProp) || "We fix it.",
+      cta: sanitizeInput(parsed.cta) || `Try ${name} now.`,
       themeColor: themeColor,
       fontStyle: fontStyle,
       animationStyle: animationStyle,
-      uiBlocks: uiBlocks
+      uiBlocks: cleanUiBlocks
      });
   } catch (error) {
     console.error('Error generating message:', error);

@@ -17,11 +17,6 @@ export default function Home() {
   const [isBatchProcessing, setIsBatchProcessing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const presets = [
-    { name: "SaaS Analytics", topic: "My users need a fast dashboard to see their stats." },
-    { name: "DevTool", topic: "Developers spend too much time debugging. They need a faster way to find errors." },
-    { name: "Health App", topic: "Users want to track their daily calories and workouts easily." }
-  ];
 
   const handlePresetClick = (preset: {name: string, topic: string}) => {
     setName(preset.name);
