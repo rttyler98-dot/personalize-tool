@@ -33,9 +33,7 @@ export const VideoComposition: React.FC<VideoCompositionProps> = ({
 
   const fontClass = fontStyle === 'serif' ? 'font-serif' : fontStyle === 'mono' ? 'font-mono' : 'font-sans';
 
-  // We bypass audio if we are missing the env var to avoid crashing the Remotion player.
-  // Using a Next.js public env var check so it works on the client side during render.
-  const hasAudio = false; // Temporarily disabled audio check to prevent client-side secrets leakage
+  const hasAudio = true; // Hardcoded to true for Google Cloud TTS integration
 
   return (
     <AbsoluteFill className={`bg-black ${fontClass} overflow-hidden`}>
